@@ -38,16 +38,20 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	<style>
-		/* Mobile: show tabs, hide 3-col */
+		/* Stand Layout - Mobile */
+		.stand-tabs { display: flex; }
+		.stand-layout { display: block; }
+		.stand-col { display: none; }
+		.stand-col.stand-col-active { display: block; }
+		
+		/* Stand Layout - Desktop (992px+) */
 		@media (min-width: 992px) {
-			#stand_mobile_tabs,
-			.stand-mobile-tabs { display: none !important; }
-			#stand_desktop_layout { display: flex !important; }
-		}
-		@media (max-width: 991.98px) {
-			#stand_mobile_tabs,
-			.stand-mobile-tabs { display: block !important; }
-			#stand_desktop_layout { display: none !important; }
+			.stand-tabs { display: none !important; }
+			.stand-layout { display: flex; flex-direction: row; }
+			.stand-col { display: block !important; }
+			.stand-col-info { width: 325px; flex-shrink: 0; }
+			.stand-col-feed { flex: 1; margin: 0 3rem; }
+			.stand-col-team { width: 325px; flex-shrink: 0; }
 		}
 	</style>
 	</head>
@@ -4330,24 +4334,24 @@ License: For each use you must have a valid license purchased only from above li
 					<div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
 						<!--begin::Post-->
 						<div class="content flex-row-fluid" id="kt_content">
-							<!--begin::Mobile Tab Navigation-->
-							<ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x nav-stretch fs-6 border-transparent stand-mobile-tabs mb-8" role="tablist">
+							<!--begin::Mobile Tab Bar-->
+							<ul class="stand-tabs nav nav-tabs nav-line-tabs-2x nav-stretch fs-6 mb-8" role="tablist">
 								<li class="nav-item flex-equal" role="presentation">
-									<a class="nav-link text-active-primary fw-bold text-center" id="tab-info" data-bs-toggle="tab" href="#stand_info_pane" role="tab">Stand Info</a>
+									<a class="nav-link fw-bold text-center" data-bs-toggle="tab" href="#" role="tab" onclick="standTab('info')">Stand Info</a>
 								</li>
 								<li class="nav-item flex-equal" role="presentation">
-									<a class="nav-link text-active-primary fw-bold active text-center" id="tab-feed" data-bs-toggle="tab" href="#stand_feed_pane" role="tab">Feed</a>
+									<a class="nav-link fw-bold text-center active" data-bs-toggle="tab" href="#" role="tab" onclick="standTab('feed')">Feed</a>
 								</li>
 								<li class="nav-item flex-equal" role="presentation">
-									<a class="nav-link text-active-primary fw-bold text-center" id="tab-team" data-bs-toggle="tab" href="#stand_team_pane" role="tab">Team</a>
+									<a class="nav-link fw-bold text-center" data-bs-toggle="tab" href="#" role="tab" onclick="standTab('team')">Team</a>
 								</li>
 							</ul>
-							<!--end::Mobile Tab Navigation-->
+							<!--end::Mobile Tab Bar-->
 
-							<!--begin::Tab Content (mobile) / Desktop 3-col layout-->
-							<div class="tab-content" id="stand_mobile_tabs" style="display:block;">
-								<!--begin::Stand Info Tab-->
-								<div class="tab-pane fade" id="stand_info_pane" role="tabpanel">
+							<!--begin::Stand Layout-->
+							<div class="stand-layout">
+								<!--begin::Left Column (Stand Info)-->
+								<div class="stand-col stand-col-info" id="stand_col_info">
 									<div class="card mb-5 mb-xl-8">
 										<div class="card-body pt-15 px-0">
 											<!--begin::Stand Photo-->
@@ -4476,9 +4480,10 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end::Stand Details-->
 
 								</div>
-								<!--end::Stand Info Tab-->
-								<!--begin::Feed Tab-->
-								<div class="tab-pane fade show active" id="stand_feed_pane" role="tabpanel">
+								<!--end::Left Column-->
+
+								<!--begin::Center Column (Feed)-->
+								<div class="stand-col stand-col-feed stand-col-active" id="stand_col_feed">
 
 									<!--begin::Pinned Post-->
 									<div class="card card-flush mb-10">
@@ -4732,9 +4737,10 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end::Customer Photos-->
 								</div>
 								</div>
-								<!--end::Feed Tab-->
-								<!--begin::Team Tab-->
-								<div class="tab-pane fade" id="stand_team_pane" role="tabpanel">
+								<!--end::Center Column-->
+
+								<!--begin::Right Column (Team)-->
+								<div class="stand-col stand-col-team" id="stand_col_team">
 									<div class="card card-flush mb-5 mb-xl-8">
 										<div class="card-header pt-5">
 											<h3 class="card-title align-items-start flex-column">
@@ -4802,473 +4808,22 @@ License: For each use you must have a valid license purchased only from above li
 									</div>
 									<!--end::Brands-->
 								</div>
-								<!--end::Team Tab-->
+								<!--end::Right Column-->
 							</div>
-							<!--end::Tab Content-->
+							<!--end::Stand Layout-->
 
-							<!--begin::Desktop 3-Column Layout (hidden on mobile)-->
-							<div id="stand_desktop_layout" style="display:none;">
-								<!--begin::Left Sidebar-->
-								<div class="flex-column flex-lg-row-auto w-lg-325px">
-									<div class="card mb-5 mb-xl-8">
-										<div class="card-body pt-15 px-0">
-											<!--begin::Stand Photo-->
-											<div class="d-flex flex-column text-center mb-9 px-9">
-												<div class="symbol symbol-lg-150px symbol-80px mb-4">
-													<img src="assets/media/boom-city/big-chief-profile.png" class="rounded" alt="Big Chief Fireworks Stand" />
-												</div>
-												<div class="text-center">
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-4">Big Chief Fireworks</a>
-													<span class="text-muted d-block fw-semibold">Stand #42 · Est. 2008</span>
-												</div>
-											</div>
-											<!--end::Stand Photo-->
-
-											<!--begin::Status-->
-											<div class="px-9 mb-7">
-												<div class="d-flex align-items-center justify-content-between rounded border border-dashed border-gray-300 p-3">
-													<div class="d-flex align-items-center">
-														<span class="bullet bullet-dot bg-success h-10px w-10px me-3"></span>
-														<span class="fw-bold text-gray-800 fs-6">Open Now</span>
-													</div>
-													<span class="text-gray-500 fw-semibold fs-7">9AM – Midnight</span>
-												</div>
-											</div>
-											<!--end::Status-->
-
-											<!--begin::Stats Row-->
-											<div class="row px-9 mb-4">
-												<div class="col-4 text-center">
-													<div class="text-gray-800 fw-bold fs-3">
-														<span class="m-0" data-kt-countup="true" data-kt-countup-value="24">0</span>
-													</div>
-													<span class="text-gray-500 fs-8 d-block fw-bold">POSTS</span>
-												</div>
-												<div class="col-4 text-center">
-													<div class="text-gray-800 fw-bold fs-3">
-														<span class="m-0" data-kt-countup="true" data-kt-countup-value="4.8">0</span>
-													</div>
-													<span class="text-gray-500 fs-8 d-block fw-bold">RATING</span>
-												</div>
-												<div class="col-4 text-center">
-													<div class="text-gray-800 fw-bold fs-3">
-														<span class="m-0" data-kt-countup="true" data-kt-countup-value="156">0</span>
-													</div>
-													<span class="text-gray-500 fs-8 d-block fw-bold">REVIEWS</span>
-												</div>
-											</div>
-											<!--end::Stats Row-->
-
-											<!--begin::Sidebar Nav-->
-											<div class="m-0">
-												<ul class="nav nav-pills nav-pills-custom flex-column border-transparent fs-5 fw-bold">
-													<li class="nav-item mt-5">
-														<a class="nav-link text-muted text-active-primary ms-0 py-0 me-10 ps-9 border-0 active" href="#">
-														<i class="ki-duotone ki-row-horizontal fs-3 text-muted me-3"><span class="path1"></span><span class="path2"></span></i>Feed
-														<span class="bullet-custom position-absolute start-0 top-0 w-3px h-100 bg-primary rounded-end"></span></a>
-													</li>
-													<li class="nav-item mt-5">
-														<a class="nav-link text-muted text-active-primary ms-0 py-0 me-10 ps-9 border-0" href="#">
-														<i class="ki-duotone ki-picture fs-3 text-muted me-3"><span class="path1"></span><span class="path2"></span></i>Gallery
-														<span class="bullet-custom position-absolute start-0 top-0 w-3px h-100 bg-primary rounded-end"></span></a>
-													</li>
-													<li class="nav-item mt-5">
-														<a class="nav-link text-muted text-active-primary ms-0 py-0 me-10 ps-9 border-0" href="#">
-														<i class="ki-duotone ki-star fs-3 text-muted me-3"><span class="path1"></span><span class="path2"></span></i>Reviews
-														<span class="bullet-custom position-absolute start-0 top-0 w-3px h-100 bg-primary rounded-end"></span></a>
-													</li>
-													<li class="nav-item mt-5">
-														<a class="nav-link text-muted text-active-primary ms-0 py-0 me-10 ps-9 border-0" href="#">
-														<i class="ki-duotone ki-shield-tick fs-3 text-muted me-3"><span class="path1"></span><span class="path2"></span></i>Safety Info
-														<span class="bullet-custom position-absolute start-0 top-0 w-3px h-100 bg-primary rounded-end"></span></a>
-													</li>
-												</ul>
-											</div>
-											<!--end::Sidebar Nav-->
-										</div>
-									</div>
-									<!--end::Stand Profile Card-->
-
-									<!--begin::Stand Details-->
-									<div class="card card-flush mb-5 mb-xl-8">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">About This Stand</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Owner</span>
-												<span class="text-gray-800 fw-semibold fs-6">Mike Thompson</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Selling Since</span>
-												<span class="text-gray-800 fw-semibold fs-6">2008 · 18 Years</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Location</span>
-												<span class="text-gray-800 fw-semibold fs-6">Zone B, Row 3</span>
-												<span class="text-gray-500 fw-semibold fs-7 d-block">Near Main Entrance</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Payment</span>
-												<span class="text-gray-800 fw-semibold fs-6">Cash · Card · Venmo</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Contact</span>
-												<span class="text-gray-800 fw-semibold fs-6">(360) 555-0142</span>
-												<span class="text-gray-500 fw-semibold fs-7 d-block">bigchief@boomcity.com</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div>
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-2">Categories</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Aerial Shells</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Firecrackers</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Sparklers</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Roman Candles</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Finale Cakes</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Assortments</span>
-											</div>
-										</div>
-									</div>
-									<!--end::Stand Details-->
-
-								</div>
-								<!--end::Left Sidebar-->
-
-								<!--begin::Main Content-->
-								<div class="w-100 flex-lg-row-fluid mx-lg-13">
-
-									<!--begin::Pinned Post-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<div class="d-flex align-items-center">
-												<div class="symbol symbol-45px me-5">
-													<img src="assets/media/boom-city/big-chief-profile.png" class="rounded" alt="" />
-												</div>
-												<div class="flex-grow-1">
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Big Chief Fireworks</a>
-													<span class="text-gray-500 fw-semibold d-block fs-7">June 28, 2026 · Pinned</span>
-												</div>
-											</div>
-											<div class="card-toolbar">
-												<button class="btn btn-icon btn-color-gray-500 btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-													<i class="ki-duotone ki-dots-square fs-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-												</button>
-											</div>
-										</div>
-										<div class="card-body pt-5">
-											<p class="text-gray-800 fs-6 fw-normal mb-5">
-												<strong>4th of July Mega Sale</strong> — Buy 2 Get 1 Free on all Finale Cakes! Plus a free sparkler bundle with every purchase over $100. We sold out last year by July 3rd, so don't wait.
-											</p>
-											<div class="d-flex align-items-center">
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary me-3">
-													<i class="ki-duotone ki-like fs-5 me-1"><span class="path1"></span><span class="path2"></span></i> 84
-												</a>
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary me-3">
-													<i class="ki-duotone ki-message-text-2 fs-5 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> 23
-												</a>
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary">
-													<i class="ki-duotone ki-send fs-5 me-1"><span class="path1"></span><span class="path2"></span></i> Share
-												</a>
-											</div>
-										</div>
-									</div>
-									<!--end::Pinned Post-->
-
-									<!--begin::Post Composer-->
-									<div class="card card-flush mb-10">
-										<div class="card-header justify-content-start align-items-center pt-4">
-											<div class="symbol symbol-45px me-5">
-												<img src="assets/media/boom-city/big-chief-profile.png" class="rounded" alt="" />
-											</div>
-											<span class="text-gray-500 fw-semibold fs-6">What's new at Big Chief?</span>
-										</div>
-										<div class="card-footer d-flex justify-content-between pt-0">
-											<div class="d-flex align-items-center">
-												<a href="#" class="btn btn-sm btn-icon btn-active-light-primary me-1"><i class="ki-duotone ki-picture fs-3"><span class="path1"></span><span class="path2"></span></i></a>
-												<a href="#" class="btn btn-sm btn-icon btn-active-light-primary me-1"><i class="ki-duotone ki-camera fs-3"><span class="path1"></span><span class="path2"></span></i></a>
-												<a href="#" class="btn btn-sm btn-icon btn-active-light-primary"><i class="ki-duotone ki-geolocation fs-3"><span class="path1"></span><span class="path2"></span></i></a>
-											</div>
-											<a href="#" class="btn btn-sm btn-primary">Post</a>
-										</div>
-									</div>
-									<!--end::Post Composer-->
-
-									<!--begin::Popular Items-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Popular Items</span>
-												<span class="text-gray-500 pt-2 fw-semibold fs-6">Sells out fast every year</span>
-											</h3>
-										</div>
-										<div class="card-body pt-2">
-											<div class="row g-5">
-												<div class="col-md-6">
-													<div class="card card-bordered h-100">
-														<div class="card-body p-5">
-															<img src="assets/media/stock/600x400/img-2.jpg" alt="Sky Thunder" class="w-100 rounded mb-4" />
-															<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6 d-block mb-1">Sky Thunder 500g Cake</a>
-															<span class="text-gray-800 fw-bold fs-5">$89.99</span>
-															<span class="text-gray-500 fw-semibold fs-7 d-block mt-1">Only 12 left in stock</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="card card-bordered h-100">
-														<div class="card-body p-5">
-															<img src="assets/media/stock/600x400/img-3.jpg" alt="American Glory" class="w-100 rounded mb-4" />
-															<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6 d-block mb-1">American Glory Assortment</a>
-															<span class="text-gray-800 fw-bold fs-5">$149.99</span>
-															<span class="text-gray-500 fw-semibold fs-7 d-block mt-1">Only 5 left in stock</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="card card-bordered h-100">
-														<div class="card-body p-5">
-															<img src="assets/media/stock/600x400/img-4.jpg" alt="Neon Sparklers" class="w-100 rounded mb-4" />
-															<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6 d-block mb-1">Neon Sparkler 36-Pack</a>
-															<span class="text-gray-800 fw-bold fs-5">$24.99</span>
-															<span class="text-gray-500 fw-semibold fs-7 d-block mt-1">Best Seller</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="card card-bordered h-100">
-														<div class="card-body p-5">
-															<img src="assets/media/stock/600x400/img-5.jpg" alt="Grand Finale" class="w-100 rounded mb-4" />
-															<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6 d-block mb-1">Grand Finale Box Set</a>
-															<span class="text-gray-800 fw-bold fs-5">$299.99</span>
-															<span class="text-gray-500 fw-semibold fs-7 d-block mt-1">New for 2026</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!--end::Popular Items-->
-
-									<!--begin::Promotions-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Current Promotions</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<!--begin::Timeline-->
-											<div class="timeline-label">
-												<div class="timeline-item">
-													<div class="timeline-label fw-bold text-gray-800 fs-6 w-100px">Jun 30</div>
-													<div class="timeline-badge">
-														<i class="ki-duotone ki-abstract-8 text-success fs-3"><span class="path1"></span><span class="path2"></span></i>
-													</div>
-													<div class="ps-3">
-														<span class="fw-bold text-gray-800 fs-6 d-block">Early Bird Special</span>
-														<span class="fw-semibold text-gray-700 fs-7">15% off all purchases before June 30th</span>
-													</div>
-												</div>
-												<div class="timeline-item">
-													<div class="timeline-label fw-bold text-gray-800 fs-6 w-100px">All Season</div>
-													<div class="timeline-badge">
-														<i class="ki-duotone ki-abstract-8 text-primary fs-3"><span class="path1"></span><span class="path2"></span></i>
-													</div>
-													<div class="ps-3">
-														<span class="fw-bold text-gray-800 fs-6 d-block">Family Pack Deal</span>
-														<span class="fw-semibold text-gray-700 fs-7">Buy any 3 assortments, get free sparkler pack</span>
-													</div>
-												</div>
-												<div class="timeline-item">
-													<div class="timeline-label fw-bold text-gray-800 fs-6 w-100px">Returning</div>
-													<div class="timeline-badge">
-														<i class="ki-duotone ki-abstract-8 text-warning fs-3"><span class="path1"></span><span class="path2"></span></i>
-													</div>
-													<div class="ps-3">
-														<span class="fw-bold text-gray-800 fs-6 d-block">Loyalty Reward</span>
-														<span class="fw-semibold text-gray-700 fs-7">Return customers get 10% off</span>
-													</div>
-												</div>
-											</div>
-											<!--end::Timeline-->
-										</div>
-									</div>
-									<!--end::Promotions-->
-
-									<!--begin::Feed Post-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<div class="d-flex align-items-center">
-												<div class="symbol symbol-45px me-5">
-													<img src="assets/media/boom-city/big-chief-profile.png" class="rounded" alt="" />
-												</div>
-												<div class="flex-grow-1">
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Big Chief Fireworks</a>
-													<span class="text-gray-500 fw-semibold d-block fs-7">June 25, 2026</span>
-												</div>
-											</div>
-											<div class="card-toolbar">
-												<button class="btn btn-icon btn-color-gray-500 btn-active-color-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-													<i class="ki-duotone ki-dots-square fs-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-												</button>
-											</div>
-										</div>
-										<div class="card-body pt-5">
-											<p class="text-gray-800 fs-6 fw-normal mb-5">
-												Just unloaded a fresh shipment of Brothers Fireworks artillery shells! These are the real deal — loud, bright, and they go fast every year. Come early to grab yours.
-											</p>
-											<div class="mb-5">
-												<img src="assets/media/stock/600x400/img-6.jpg" class="w-100 rounded" alt="New shipment" />
-											</div>
-											<div class="d-flex align-items-center">
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary me-3">
-													<i class="ki-duotone ki-like fs-5 me-1"><span class="path1"></span><span class="path2"></span></i> 47
-												</a>
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary me-3">
-													<i class="ki-duotone ki-message-text-2 fs-5 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> 12
-												</a>
-												<a href="#" class="btn btn-sm btn-light btn-active-light-primary">
-													<i class="ki-duotone ki-send fs-5 me-1"><span class="path1"></span><span class="path2"></span></i> Share
-												</a>
-											</div>
-										</div>
-									</div>
-									<!--end::Feed Post-->
-
-									<!--begin::Safety Tips-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Safety Information</span>
-												<span class="text-gray-500 pt-2 fw-semibold fs-6">Enjoy fireworks responsibly</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<div class="d-flex align-items-center mb-5">
-												<span class="bullet bullet-vertical h-15px bg-gray-300 me-4"></span>
-												<span class="text-gray-700 fw-semibold fs-6">Always read and follow label instructions</span>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<span class="bullet bullet-vertical h-15px bg-gray-300 me-4"></span>
-												<span class="text-gray-700 fw-semibold fs-6">Keep a water source nearby</span>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<span class="bullet bullet-vertical h-15px bg-gray-300 me-4"></span>
-												<span class="text-gray-700 fw-semibold fs-6">Never re-light a dud firework</span>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<span class="bullet bullet-vertical h-15px bg-gray-300 me-4"></span>
-												<span class="text-gray-700 fw-semibold fs-6">Adult supervision required for all products</span>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<span class="bullet bullet-vertical h-15px bg-gray-300 me-4"></span>
-												<span class="text-gray-700 fw-semibold fs-6">Legal discharge dates: June 28 – July 5</span>
-											</div>
-										</div>
-									</div>
-									<!--end::Safety Tips-->
-
-									<!--begin::Customer Photos-->
-									<div class="card card-flush mb-10">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Customer Photos</span>
-												<span class="text-gray-500 pt-2 fw-semibold fs-6">Show us your haul!</span>
-											</h3>
-										</div>
-										<div class="card-body pt-2">
-											<div class="row g-3">
-												<div class="col-4"><img src="assets/media/stock/600x400/img-7.jpg" class="w-100 rounded" alt="" /></div>
-												<div class="col-4"><img src="assets/media/stock/600x400/img-8.jpg" class="w-100 rounded" alt="" /></div>
-												<div class="col-4"><img src="assets/media/stock/600x400/img-9.jpg" class="w-100 rounded" alt="" /></div>
-												<div class="col-4"><img src="assets/media/stock/600x400/img-10.jpg" class="w-100 rounded" alt="" /></div>
-												<div class="col-4"><img src="assets/media/stock/600x400/img-11.jpg" class="w-100 rounded" alt="" /></div>
-												<div class="col-4"><img src="assets/media/stock/600x400/img-12.jpg" class="w-100 rounded" alt="" /></div>
-											</div>
-										</div>
-									</div>
-									<!--end::Customer Photos-->
-								</div>
-								</div>
-								<!--end::Main Content-->
-
-								<!--begin::Right Sidebar-->
-								<div class="flex-column flex-lg-row-auto w-lg-325px">
-									<div class="card card-flush mb-5 mb-xl-8">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Who's at the Stand</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<div class="d-flex align-items-center mb-5">
-												<div class="symbol symbol-35px me-4">
-													<img src="assets/media/avatars/300-1.jpg" alt="" />
-												</div>
-												<div>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Mike T.</a>
-													<span class="text-gray-500 d-block fs-7">Stand Owner</span>
-												</div>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<div class="symbol symbol-35px me-4">
-													<img src="assets/media/avatars/300-2.jpg" alt="" />
-												</div>
-												<div>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Sarah T.</a>
-													<span class="text-gray-500 d-block fs-7">Stand Assistant</span>
-												</div>
-											</div>
-											<div class="d-flex align-items-center mb-5">
-												<div class="symbol symbol-35px me-4">
-													<img src="assets/media/avatars/300-5.jpg" alt="" />
-												</div>
-												<div>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Jake W.</a>
-													<span class="text-gray-500 d-block fs-7">Stand Assistant</span>
-												</div>
-											</div>
-											<div class="d-flex align-items-center">
-												<div class="symbol symbol-35px me-4">
-													<img src="assets/media/avatars/300-6.jpg" alt="" />
-												</div>
-												<div>
-													<a href="#" class="text-gray-800 fw-bold text-hover-primary fs-6">Emma D.</a>
-													<span class="text-gray-500 d-block fs-7">Stand Assistant</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!--end::Who's at the Stand-->
-
-									<!--begin::Brands-->
-									<div class="card card-flush">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">Brands We Carry</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<span class="badge badge-light fs-8 me-1 mb-1">Phantom</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Black Cat</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Brothers</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Shogun</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Dominator</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Winda</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Boomwow</span>
-											<span class="badge badge-light fs-8 me-1 mb-1">Red Apple</span>
-										</div>
-									</div>
-									<!--end::Brands-->
-								</div>
-								<!--end::Right Sidebar-->
-							</div>
-							<!--end::Desktop 3-Column Layout-->
+							<script>
+							function standTab(tab) {
+								// Remove active from all tabs
+								document.querySelectorAll('.stand-tabs .nav-link').forEach(function(el) { el.classList.remove('active'); });
+								// Hide all columns on mobile
+								document.querySelectorAll('.stand-col').forEach(function(el) { el.classList.remove('stand-col-active'); });
+								// Activate selected
+								document.getElementById('stand_col_' + tab).classList.add('stand-col-active');
+								// Mark tab active
+								event.target.classList.add('active');
+							}
+							</script>
 						</div>
 						<!--end::Post-->
 					</div>
