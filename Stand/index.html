@@ -38,14 +38,16 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	<style>
-		/* Mobile: show tabs, hide desktop layout */
-		#stand_mobile_tabs { display: block; }
-		#stand_desktop_layout { display: none !important; }
-		/* Desktop (992px+): hide tabs, show 3-col layout */
+		/* Mobile: show tabs, hide 3-col */
 		@media (min-width: 992px) {
-			.nav-tabs.d-lg-none { display: none !important; }
-			#stand_mobile_tabs { display: none !important; }
+			#stand_mobile_tabs,
+			.stand-mobile-tabs { display: none !important; }
 			#stand_desktop_layout { display: flex !important; }
+		}
+		@media (max-width: 991.98px) {
+			#stand_mobile_tabs,
+			.stand-mobile-tabs { display: block !important; }
+			#stand_desktop_layout { display: none !important; }
 		}
 	</style>
 	</head>
@@ -4329,7 +4331,7 @@ License: For each use you must have a valid license purchased only from above li
 						<!--begin::Post-->
 						<div class="content flex-row-fluid" id="kt_content">
 							<!--begin::Mobile Tab Navigation-->
-							<ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x nav-stretch fs-6 border-transparent d-lg-none mb-8" role="tablist">
+							<ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x nav-stretch fs-6 border-transparent stand-mobile-tabs mb-8" role="tablist">
 								<li class="nav-item flex-equal" role="presentation">
 									<a class="nav-link text-active-primary fw-bold text-center" id="tab-info" data-bs-toggle="tab" href="#stand_info_pane" role="tab">Stand Info</a>
 								</li>
@@ -4343,7 +4345,7 @@ License: For each use you must have a valid license purchased only from above li
 							<!--end::Mobile Tab Navigation-->
 
 							<!--begin::Tab Content (mobile) / Desktop 3-col layout-->
-							<div class="tab-content d-lg-none" id="stand_mobile_tabs">
+							<div class="tab-content" id="stand_mobile_tabs" style="display:block;">
 								<!--begin::Stand Info Tab-->
 								<div class="tab-pane fade" id="stand_info_pane" role="tabpanel">
 									<div class="card mb-5 mb-xl-8">
@@ -4805,7 +4807,7 @@ License: For each use you must have a valid license purchased only from above li
 							<!--end::Tab Content-->
 
 							<!--begin::Desktop 3-Column Layout (hidden on mobile)-->
-							<div id="stand_desktop_layout" class="d-none d-lg-flex flex-row">
+							<div id="stand_desktop_layout" style="display:none;">
 								<!--begin::Left Sidebar-->
 								<div class="flex-column flex-lg-row-auto w-lg-325px">
 									<div class="card mb-5 mb-xl-8">
