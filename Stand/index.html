@@ -40,9 +40,9 @@ License: For each use you must have a valid license purchased only from above li
 	<style>
 		/* Stand Layout - Mobile */
 		.stand-tabs { display: flex; }
-		.stand-layout { display: block; }
-		.stand-col { display: none; }
-		.stand-col.stand-col-active { display: block; }
+		.stand-layout { display: block; width: 100%; }
+		.stand-col { display: none; width: 100%; }
+		.stand-col.stand-col-active { display: block; width: 100%; }
 		
 		/* Stand Layout - Desktop (992px+) */
 		@media (min-width: 992px) {
@@ -50,8 +50,14 @@ License: For each use you must have a valid license purchased only from above li
 			.stand-layout { display: flex; flex-direction: row; }
 			.stand-col { display: block !important; }
 			.stand-col-info { width: 325px; flex-shrink: 0; }
-			.stand-col-feed { flex: 1; margin: 0 3rem; }
+			.stand-col-feed { flex: 1; margin: 0 3rem; width: auto; }
 			.stand-col-team { width: 325px; flex-shrink: 0; }
+		}
+		
+		/* Mobile fixes */
+		@media (max-width: 991.98px) {
+			#kt_content_container { padding-left: 0; padding-right: 0; }
+			.stand-col .card { border-radius: 0; }
 		}
 	</style>
 	</head>
