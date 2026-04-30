@@ -37,6 +37,17 @@ License: For each use you must have a valid license purchased only from above li
 		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+	<style>
+		/* Mobile: show tabs, hide desktop layout */
+		#stand_mobile_tabs { display: block; }
+		#stand_desktop_layout { display: none !important; }
+		/* Desktop (992px+): hide tabs, show 3-col layout */
+		@media (min-width: 992px) {
+			.nav-tabs.d-lg-none { display: none !important; }
+			#stand_mobile_tabs { display: none !important; }
+			#stand_desktop_layout { display: flex !important; }
+		}
+	</style>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -4794,7 +4805,7 @@ License: For each use you must have a valid license purchased only from above li
 							<!--end::Tab Content-->
 
 							<!--begin::Desktop 3-Column Layout (hidden on mobile)-->
-							<div class="d-none d-lg-flex flex-row">
+							<div id="stand_desktop_layout" class="d-none d-lg-flex flex-row">
 								<!--begin::Left Sidebar-->
 								<div class="flex-column flex-lg-row-auto w-lg-325px">
 									<div class="card mb-5 mb-xl-8">
