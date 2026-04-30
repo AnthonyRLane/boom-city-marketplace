@@ -41,8 +41,8 @@ License: For each use you must have a valid license purchased only from above li
 		/* Stand Layout - Mobile */
 		.stand-tabs { display: flex; }
 		.stand-layout { display: block; width: 100%; }
-		.stand-col { display: none; width: 100%; }
-		.stand-col.stand-col-active { display: block; width: 100%; }
+		.stand-col { display: none; }
+		.stand-col.stand-col-active { display: block; }
 		
 		/* Stand Layout - Desktop (992px+) */
 		@media (min-width: 992px) {
@@ -50,14 +50,23 @@ License: For each use you must have a valid license purchased only from above li
 			.stand-layout { display: flex; flex-direction: row; }
 			.stand-col { display: block !important; }
 			.stand-col-info { width: 325px; flex-shrink: 0; }
-			.stand-col-feed { flex: 1; margin: 0 3rem; width: auto; }
+			.stand-col-feed { flex: 1; margin: 0 3rem; }
 			.stand-col-team { width: 325px; flex-shrink: 0; }
 		}
 		
-		/* Mobile fixes */
+		/* Mobile: full-width overrides */
 		@media (max-width: 991.98px) {
-			#kt_content_container { padding-left: 0; padding-right: 0; }
-			.stand-col .card { border-radius: 0; }
+			#kt_content_container,
+			#kt_content { 
+				max-width: 100% !important; 
+				width: 100% !important;
+				padding-left: 15px !important;
+				padding-right: 15px !important;
+			}
+			.stand-col.stand-col-active {
+				width: 100% !important;
+				max-width: 100% !important;
+			}
 		}
 	</style>
 	</head>
