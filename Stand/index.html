@@ -42,7 +42,7 @@ License: For each use you must have a valid license purchased only from above li
 		.stand-tabs { display: flex; }
 		.stand-layout { display: block; width: 100%; }
 		.stand-col { display: none; }
-		.stand-col.stand-col-active { display: block; width: 100%; }
+		.stand-col.stand-col-active { display: block; }
 		
 		/* Stand Layout - Desktop */
 		@media (min-width: 992px) {
@@ -50,11 +50,11 @@ License: For each use you must have a valid license purchased only from above li
 			.stand-layout { display: flex; flex-direction: row; }
 			.stand-col { display: block !important; }
 			.stand-col-info { width: 325px; flex-shrink: 0; }
-			.stand-col-feed { flex: 1; margin: 0 3rem; width: auto; }
+			.stand-col-feed { flex: 1; margin: 0 3rem; }
 			.stand-col-team { width: 325px; flex-shrink: 0; }
 		}
 		
-		/* Mobile: force full-width */
+		/* Mobile: nuke all width constraints */
 		@media (max-width: 991.98px) {
 			#kt_content_container {
 				max-width: 100% !important;
@@ -66,10 +66,23 @@ License: For each use you must have a valid license purchased only from above li
 			#kt_content {
 				max-width: 100% !important;
 				width: 100% !important;
-				flex: 1 !important;
+				padding: 0 !important;
+				flex: 1 1 100% !important;
+			}
+			#kt_wrapper {
+				width: 100% !important;
+				max-width: 100% !important;
+			}
+			.page {
+				width: 100% !important;
+				max-width: 100% !important;
+				overflow-x: hidden !important;
 			}
 			.stand-tabs {
 				padding: 0 15px;
+			}
+			.stand-col.stand-col-active {
+				padding: 0 10px;
 			}
 		}
 	</style>
