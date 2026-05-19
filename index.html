@@ -17,7 +17,15 @@
 	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 	<style>
 		* { box-sizing: border-box; }
-		body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: #070B1A; color: #fff; -webkit-font-smoothing: antialiased; }
+		body {
+			margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+			background: #070B1A !important; color: #fff;
+			-webkit-font-smoothing: antialiased;
+		}
+		/* Kill any Metronic backgrounds */
+		.page, .wrapper, .content, #kt_body, [data-kt-app-page-loading] {
+			background: none !important;
+		}
 
 		/* Hero */
 		.bc-hero {
@@ -42,21 +50,27 @@
 		}
 		.bc-hero-overlay {
 			position: absolute; inset: 0;
-			background: linear-gradient(180deg, rgba(7,11,26,0.5) 0%, rgba(7,11,26,0.75) 60%, #070B1A 100%);
+			background: linear-gradient(180deg, rgba(7,11,26,0.55) 0%, rgba(7,11,26,0.8) 60%, #070B1A 100%);
 		}
 		.bc-hero-content { position: relative; z-index: 2; max-width: 680px; }
-		.bc-hero-logo { width: 120px; margin-bottom: 16px; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5)); }
+		.bc-hero-logo {
+			width: 180px; margin-bottom: 20px;
+			filter: drop-shadow(0 4px 24px rgba(0,0,0,0.6));
+		}
+		@media (min-width: 768px) { .bc-hero-logo { width: 220px; } }
 		.bc-hero-subtitle {
 			font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px;
-			color: #F59E0B; margin-bottom: 8px;
+			color: #F59E0B; margin-bottom: 12px;
 		}
 		.bc-hero-title {
-			font-size: 42px; font-weight: 900; line-height: 1.1; margin: 0 0 12px;
-			text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+			font-size: 44px; font-weight: 900; line-height: 1.1; margin: 0 0 14px;
+			color: #fff;
+			text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 4px 40px rgba(0,0,0,0.5);
+			-webkit-text-stroke: 0.5px rgba(255,255,255,0.15);
 		}
-		@media (min-width: 768px) { .bc-hero-title { font-size: 64px; } }
+		@media (min-width: 768px) { .bc-hero-title { font-size: 68px; } }
 		.bc-hero-dates {
-			font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 6px;
+			font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 6px;
 		}
 		.bc-hero-hours {
 			font-size: 15px; color: rgba(255,255,255,0.5); margin-bottom: 32px;
@@ -69,7 +83,7 @@
 			text-decoration: none; transition: transform 0.15s, box-shadow 0.15s;
 			box-shadow: 0 4px 20px rgba(245,158,11,0.3);
 		}
-		.bc-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.4); }
+		.bc-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.4); color: #000; }
 		.bc-hero-cta:active { transform: scale(0.97); }
 
 		/* Countdown */
@@ -111,9 +125,6 @@
 			max-width: 680px; margin: 0 auto;
 			padding: 40px 20px;
 		}
-		.bc-section-title {
-			font-size: 24px; font-weight: 800; margin-bottom: 20px;
-		}
 
 		/* Quick info cards */
 		.bc-info-cards {
@@ -137,8 +148,8 @@
 
 		/* Email signup */
 		.bc-signup {
-			background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(217,119,6,0.05) 100%);
-			border: 1px solid rgba(245,158,11,0.15);
+			background: rgba(255,255,255,0.04);
+			border: 1px solid rgba(255,255,255,0.08);
 			border-radius: 16px;
 			padding: 28px 24px;
 			text-align: center;
@@ -149,13 +160,13 @@
 		.bc-signup-form { display: flex; gap: 8px; }
 		.bc-signup-input {
 			flex: 1;
-			background: rgba(255,255,255,0.08);
-			border: 1px solid rgba(255,255,255,0.12);
+			background: rgba(255,255,255,0.06);
+			border: 1px solid rgba(255,255,255,0.1);
 			border-radius: 10px;
 			padding: 12px 14px;
 			color: #fff; font-size: 14px; outline: none;
 		}
-		.bc-signup-input:focus { border-color: #F59E0B; }
+		.bc-signup-input:focus { border-color: rgba(255,255,255,0.3); }
 		.bc-signup-input::placeholder { color: rgba(255,255,255,0.3); }
 		.bc-signup-btn {
 			background: #F59E0B; color: #000;
@@ -165,86 +176,72 @@
 		}
 		.bc-signup-btn:hover { background: #D97706; }
 
-		/* Featured stands */
-		.bc-stand-grid {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: 12px;
-			margin-bottom: 40px;
-		}
-		.bc-stand-card {
-			background: rgba(255,255,255,0.04);
-			border: 1px solid rgba(255,255,255,0.08);
-			border-radius: 14px;
-			padding: 16px;
-			display: flex; align-items: center; gap: 14px;
-			text-decoration: none; color: #fff;
-			transition: background 0.15s, border-color 0.15s;
-		}
-		.bc-stand-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
-		.bc-stand-card img {
-			width: 50px; height: 50px; border-radius: 12px; object-fit: cover;
-			flex-shrink: 0;
-		}
-		.bc-stand-card-info { flex: 1; }
-		.bc-stand-card-name { font-size: 15px; font-weight: 700; }
-		.bc-stand-card-meta { font-size: 12px; color: rgba(255,255,255,0.4); }
-		.bc-stand-card-arrow { color: rgba(255,255,255,0.2); font-size: 18px; }
-
-		/* Owner CTA */
-		.bc-owner-cta {
-			text-align: center;
-			padding: 40px 20px;
-			border-top: 1px solid rgba(255,255,255,0.06);
-		}
-		.bc-owner-cta-btn {
-			display: inline-flex; align-items: center; gap: 8px;
-			background: rgba(52,211,153,0.1);
-			border: 1px solid rgba(52,211,153,0.2);
-			color: #34D399; font-size: 14px; font-weight: 700;
-			padding: 12px 28px; border-radius: 50px;
-			text-decoration: none; transition: all 0.15s;
-		}
-		.bc-owner-cta-btn:hover { background: rgba(52,211,153,0.18); }
-
 		/* Footer */
 		.bc-footer {
 			text-align: center;
-			padding: 30px 20px;
+			padding: 30px 20px 100px;
 			font-size: 12px;
 			color: rgba(255,255,255,0.25);
 		}
 		.bc-footer a { color: rgba(255,255,255,0.35); text-decoration: none; }
 		.bc-footer a:hover { color: rgba(255,255,255,0.6); }
 
-		/* Bottom nav (same as stand page) */
-		.bc-nav {
-			position: fixed; bottom: 0; left: 0; right: 0;
-			background: rgba(7,11,26,0.85);
-			-webkit-backdrop-filter: blur(20px);
-			backdrop-filter: blur(20px);
-			border-top: 1px solid rgba(255,255,255,0.06);
+		/* Bottom nav — matches stand pages exactly */
+		.stand-nav {
+			position: fixed;
+			bottom: 0; left: 0; right: 0;
+			z-index: 1050;
 			display: flex;
+			align-items: stretch;
 			justify-content: space-around;
-			padding: 8px 0;
-			padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
-			z-index: 1000;
+			height: 64px;
+			padding-bottom: env(safe-area-inset-bottom, 0px);
+			background: rgba(30, 31, 38, 0.92);
+			-webkit-backdrop-filter: saturate(180%) blur(20px);
+			backdrop-filter: saturate(180%) blur(20px);
+			border-top: 1px solid rgba(255, 255, 255, 0.06);
+			box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.04);
 		}
-		.bc-nav-item {
-			display: flex; flex-direction: column; align-items: center;
-			gap: 2px; text-decoration: none;
-			color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 600;
-			transition: color 0.15s;
+		.stand-nav-item {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 3px;
+			padding: 6px 0;
+			cursor: pointer;
+			-webkit-tap-highlight-color: transparent;
+			transition: color 0.2s ease, transform 0.15s ease;
+			color: rgba(255,255,255,0.35);
+			text-decoration: none !important;
+			position: relative;
 		}
-		.bc-nav-item:hover { color: rgba(255,255,255,0.7); }
-		.bc-nav-item.active { color: #F59E0B; }
-		.bc-nav-item i { font-size: 20px; }
-		@media (min-width: 992px) {
-			.bc-nav {
-				max-width: 680px;
-				margin: 0 auto;
-				border-radius: 16px 16px 0 0;
-			}
+		.stand-nav-item:active {
+			transform: scale(0.92);
+		}
+		.stand-nav-item.active {
+			color: #F59E0B;
+		}
+		.stand-nav-item.active::before {
+			content: '';
+			position: absolute;
+			top: 0; left: 25%; right: 25%;
+			height: 2px;
+			background: #F59E0B;
+			border-radius: 0 0 2px 2px;
+		}
+		.stand-nav-item.active .stand-nav-icon {
+			filter: drop-shadow(0 0 6px rgba(245,158,11,0.4));
+		}
+		.stand-nav-icon {
+			font-size: 20px;
+			line-height: 1;
+		}
+		.stand-nav-label {
+			font-size: 10px;
+			font-weight: 600;
+			letter-spacing: 0.3px;
 		}
 	</style>
 </head>
@@ -336,79 +333,38 @@
 				<button class="bc-signup-btn" type="submit">Sign Up</button>
 			</form>
 		</div>
-
-		<!-- Featured Stands -->
-		<h2 class="bc-section-title">Featured Stands</h2>
-		<div class="bc-stand-grid">
-			<a href="Stand/" class="bc-stand-card">
-				<img src="assets/media/boom-city/big-chief-profile.png" alt="Big Chief Fireworks" />
-				<div class="bc-stand-card-info">
-					<div class="bc-stand-card-name">Big Chief Fireworks</div>
-					<div class="bc-stand-card-meta">Stand #42 · Zone B, Row 3</div>
-				</div>
-				<span class="bc-stand-card-arrow">›</span>
-			</a>
-			<a href="#" class="bc-stand-card">
-				<img src="assets/media/avatars/300-1.jpg" alt="" />
-				<div class="bc-stand-card-info">
-					<div class="bc-stand-card-name">Eagle Thunder Fireworks</div>
-					<div class="bc-stand-card-meta">Stand #15 · Zone A, Row 1</div>
-				</div>
-				<span class="bc-stand-card-arrow">›</span>
-			</a>
-			<a href="#" class="bc-stand-card">
-				<img src="assets/media/avatars/300-2.jpg" alt="" />
-				<div class="bc-stand-card-info">
-					<div class="bc-stand-card-name">Crazy Horse Pyro</div>
-					<div class="bc-stand-card-meta">Stand #88 · Zone C, Row 5</div>
-				</div>
-				<span class="bc-stand-card-arrow">›</span>
-			</a>
-			<a href="#" class="bc-stand-card">
-				<img src="assets/media/avatars/300-5.jpg" alt="" />
-				<div class="bc-stand-card-info">
-					<div class="bc-stand-card-name">Sky King Fireworks</div>
-					<div class="bc-stand-card-meta">Stand #3 · Zone A, Row 2</div>
-				</div>
-				<span class="bc-stand-card-arrow">›</span>
-			</a>
-		</div>
-	</div>
-
-	<!-- Stand Owner CTA -->
-	<div class="bc-owner-cta">
-		<p style="font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:12px;">Are you a stand owner?</p>
-		<a href="Stand/manage.html" class="bc-owner-cta-btn">
-			<i class="ki-duotone ki-shop"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-			Stand Owner Portal
-		</a>
 	</div>
 
 	<!-- Footer -->
 	<footer class="bc-footer">
-		<div style="margin-bottom:8px;">
-			<a href="Stand/">Marketplace</a> · <a href="#">Map</a> · <a href="#">About</a>
-		</div>
-		<div>2026 © Boom City Fireworks · Tulalip, WA · <a href="https://boomcityinfo.com">boomcityinfo.com</a></div>
+		<div>2026 © Boom City Fireworks · Tulalip, WA</div>
 	</footer>
 
-	<!-- Bottom Nav -->
-	<nav class="bc-nav" role="navigation" aria-label="Marketplace navigation">
-		<a class="bc-nav-item active" href="index.html" aria-label="Home">
-			<i class="ki-duotone ki-home-2"><span class="path1"></span><span class="path2"></span></i>
-			<span>Home</span>
+	<!-- Bottom Nav (same classes as stand pages) -->
+	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
+		<a class="stand-nav-item active" href="index.html" aria-label="Home">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2">
+				<span class="path1"></span><span class="path2"></span>
+			</i></span>
+			<span class="stand-nav-label">Home</span>
 		</a>
-		<a class="bc-nav-item" href="Stand/" aria-label="Marketplace">
-			<i class="ki-duotone ki-magnifier"><span class="path1"></span><span class="path2"></span></i>
-			<span>Marketplace</span>
+		<a class="stand-nav-item" href="Stand/" aria-label="Marketplace">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2">
+				<span class="path1"></span><span class="path2"></span>
+			</i></span>
+			<span class="stand-nav-label">Marketplace</span>
 		</a>
-		<a class="bc-nav-item" href="#" aria-label="Map">
-			<i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i>
-			<span>Map</span>
+		<a class="stand-nav-item" href="#" aria-label="Map">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2">
+				<span class="path1"></span><span class="path2"></span>
+			</i></span>
+			<span class="stand-nav-label">Map</span>
 		</a>
-		<a class="bc-nav-item" href="#" aria-label="Favorites">
-			<i class="ki-duotone ki-heart"><span class="path1"></span><span class="path2"></span></i>
-			<span>Favorites</span>
+		<a class="stand-nav-item" href="#" aria-label="Favorites">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2">
+				<span class="path1"></span><span class="path2"></span>
+			</i></span>
+			<span class="stand-nav-label">Favorites</span>
 		</a>
 	</nav>
 
