@@ -38,10 +38,9 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	<style>
-		/* Stand Layout - Mobile (default) */
+		/* Stand Layout - Mobile: single scroll, all visible */
 		.stand-layout { display: block; width: 100%; }
-		.stand-col { display: none; }
-		.stand-col.stand-col-active { display: block; }
+		.stand-col { display: block; }
 
 		/* ── Mobile Bottom Nav ── */
 		.stand-nav {
@@ -213,19 +212,66 @@ License: For each use you must have a valid license purchased only from above li
 			gap: 8px;
 			flex-wrap: wrap;
 		}
-		.bc-stand-badge {
-			display: inline-flex;
+		/* Stand info row in header */
+		.bc-stand-info {
+			display: flex;
+			align-items: flex-start;
+			gap: 16px;
+			margin-top: 16px;
+		}
+		.bc-stand-photo {
+			width: 72px; height: 72px;
+			border-radius: 12px;
+			object-fit: cover;
+			border: 2px solid rgba(255,255,255,0.15);
+			flex-shrink: 0;
+		}
+		@media (min-width: 992px) {
+			.bc-stand-photo { width: 88px; height: 88px; }
+		}
+		.bc-stand-details {
+			flex: 1;
+			min-width: 0;
+		}
+		.bc-detail-row {
+			display: flex;
 			align-items: center;
-			gap: 5px;
-			padding: 4px 10px;
-			border-radius: 20px;
-			background: rgba(255,255,255,0.08);
-			border: 1px solid rgba(255,255,255,0.1);
-			color: rgba(255,255,255,0.7);
-			font-size: 12px;
+			gap: 6px;
+			margin-bottom: 6px;
+			color: rgba(255,255,255,0.6);
+			font-size: 13px;
+			font-weight: 500;
+		}
+		.bc-detail-row i { font-size: 14px; color: rgba(255,255,255,0.35); flex-shrink: 0; }
+		.bc-status-open {
+			color: #34D399;
 			font-weight: 600;
 		}
-		.bc-stand-badge i { font-size: 12px; color: rgba(255,255,255,0.5); }
+		.bc-status-dot {
+			width: 7px; height: 7px;
+			border-radius: 50%;
+			background: #34D399;
+			display: inline-block;
+			animation: bc-pulse 2s ease-in-out infinite;
+		}
+		@keyframes bc-pulse {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.4; }
+		}
+		.bc-categories {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			margin-top: 8px;
+		}
+		.bc-cat-tag {
+			padding: 2px 8px;
+			border-radius: 4px;
+			background: rgba(255,255,255,0.07);
+			color: rgba(255,255,255,0.5);
+			font-size: 11px;
+			font-weight: 600;
+		}
 		/* Sparkle accents */
 		.bc-sparkle {
 			position: absolute;
@@ -290,7 +336,7 @@ License: For each use you must have a valid license purchased only from above li
 				overflow-x: hidden !important;
 			}
 
-			.stand-col.stand-col-active {
+			.stand-col {
 				padding: 0 10px;
 			}
 		}
@@ -3581,16 +3627,36 @@ License: For each use you must have a valid license purchased only from above li
 							<div class="bc-divider"></div>
 							<!-- Stand Name -->
 							<h1 class="bc-stand-name">Big Chief Fireworks</h1>
-							<!-- Meta Badges -->
-							<div class="bc-stand-meta">
-								<span class="bc-stand-badge">
-									<i class="ki-duotone ki-geolocation fs-7"><span class="path1"></span><span class="path2"></span></i>
-									Stand #42
-								</span>
-								<span class="bc-stand-badge">
-									<i class="ki-duotone ki-calendar fs-7"><span class="path1"></span><span class="path2"></span></i>
-									Est. 2008
-								</span>
+							<!-- Stand Info -->
+							<div class="bc-stand-info">
+								<img src="assets/media/boom-city/big-chief-profile.png" alt="Big Chief Fireworks" class="bc-stand-photo" />
+								<div class="bc-stand-details">
+									<div class="bc-detail-row">
+										<span class="bc-status-dot"></span>
+										<span class="bc-status-open">Open Now</span>
+										<span style="color:rgba(255,255,255,0.35);">·</span>
+										<span>9AM – Midnight</span>
+									</div>
+									<div class="bc-detail-row">
+										<i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i>
+										Stand #42 · Zone B, Row 3
+									</div>
+									<div class="bc-detail-row">
+										<i class="ki-duotone ki-profile-user"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+										Mike Thompson · Since 2008
+									</div>
+									<div class="bc-detail-row">
+										<i class="ki-duotone ki-wallet"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+										Cash · Card · Venmo
+									</div>
+									<div class="bc-categories">
+										<span class="bc-cat-tag">Aerial Shells</span>
+										<span class="bc-cat-tag">Finale Cakes</span>
+										<span class="bc-cat-tag">Sparklers</span>
+										<span class="bc-cat-tag">Roman Candles</span>
+										<span class="bc-cat-tag">Assortments</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -3606,7 +3672,7 @@ License: For each use you must have a valid license purchased only from above li
 							<div class="stand-layout">
 								<!--begin::Left Column (Stand Info)-->
 								<div class="stand-col stand-col-info" id="stand_col_info">
-									<div class="card mb-5 mb-xl-8">
+									<div class="card mb-5 mb-xl-8 d-none d-lg-block">
 										<div class="card-body pt-15 px-0">
 											<!--begin::Stand Photo-->
 											<div class="d-flex flex-column text-center mb-9 px-9">
@@ -3737,7 +3803,7 @@ License: For each use you must have a valid license purchased only from above li
 								<!--end::Left Column-->
 
 								<!--begin::Center Column (Feed)-->
-								<div class="stand-col stand-col-feed stand-col-active" id="stand_col_feed">
+								<div class="stand-col stand-col-feed" id="stand_col_feed">
 
 									<!--begin::Pinned Post-->
 									<div class="card card-flush mb-10">
@@ -4066,20 +4132,7 @@ License: For each use you must have a valid license purchased only from above li
 							</div>
 							<!--end::Stand Layout-->
 
-							<script>
-							function standTab(tab, el) {
-								// Remove active from all nav items
-								document.querySelectorAll('.stand-nav-item').forEach(function(item) { item.classList.remove('active'); });
-								// Hide all columns on mobile
-								document.querySelectorAll('.stand-col').forEach(function(col) { col.classList.remove('stand-col-active'); });
-								// Activate selected column
-								document.getElementById('stand_col_' + tab).classList.add('stand-col-active');
-								// Mark nav item active
-								if (el) el.classList.add('active');
-								// Scroll to top on tab switch
-								window.scrollTo({ top: 0, behavior: 'smooth' });
-							}
-							</script>
+							<!-- Tab switching removed: single-scroll layout -->
 						</div>
 						<!--end::Post-->
 					</div>
@@ -8874,24 +8927,30 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	<!--begin::Mobile Bottom Nav-->
-	<nav class="stand-nav" role="tablist" aria-label="Stand navigation">
-		<a class="stand-nav-item" role="tab" onclick="standTab('info', this)" aria-label="Stand Info">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-shop fs-2">
-				<span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
+		<a class="stand-nav-item" href="../index.html" aria-label="Home">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2">
+				<span class="path1"></span><span class="path2"></span>
 			</i></span>
-			<span class="stand-nav-label">Stand</span>
+			<span class="stand-nav-label">Home</span>
 		</a>
-		<a class="stand-nav-item active" role="tab" onclick="standTab('feed', this)" aria-label="Feed">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-message-text-2 fs-2">
-				<span class="path1"></span><span class="path2"></span><span class="path3"></span>
+		<a class="stand-nav-item" href="#" aria-label="Explore">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2">
+				<span class="path1"></span><span class="path2"></span>
 			</i></span>
-			<span class="stand-nav-label">Feed</span>
+			<span class="stand-nav-label">Explore</span>
 		</a>
-		<a class="stand-nav-item" role="tab" onclick="standTab('team', this)" aria-label="Team">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-people fs-2">
-				<span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+		<a class="stand-nav-item" href="#" aria-label="Map">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2">
+				<span class="path1"></span><span class="path2"></span>
 			</i></span>
-			<span class="stand-nav-label">Team</span>
+			<span class="stand-nav-label">Map</span>
+		</a>
+		<a class="stand-nav-item" href="#" aria-label="Favorites">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2">
+				<span class="path1"></span><span class="path2"></span>
+			</i></span>
+			<span class="stand-nav-label">Favorites</span>
 		</a>
 	</nav>
 	<!--end::Mobile Bottom Nav-->
