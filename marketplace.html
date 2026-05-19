@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Marketplace — Boom City Fireworks</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
 	<meta name="description" content="Browse all fireworks stands, food vendors, and craft booths at Boom City on the Tulalip Reservation." />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800,900" />
 	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -16,10 +16,10 @@
 			-webkit-font-smoothing: antialiased;
 			padding-bottom: 80px;
 		}
-		body *, .page, .wrapper, .content {
-			background-color: transparent !important;
-		}
+		body *, .page, .wrapper, .content { background-color: transparent !important; }
 		body { background: #070B1A !important; }
+		/* Prevent iOS zoom on input focus */
+		input, select, textarea { font-size: 16px !important; }
 
 		/* ═══ Top Bar ═══ */
 		.mp-topbar {
@@ -31,12 +31,9 @@
 			padding: 12px 16px;
 			padding-top: calc(12px + env(safe-area-inset-top, 0px));
 		}
-		.mp-topbar-inner {
-			max-width: 680px; margin: 0 auto;
-		}
+		.mp-topbar-inner { max-width: 680px; margin: 0 auto; }
 		.mp-topbar-header {
 			display: flex; align-items: center; justify-content: space-between;
-			margin-bottom: 12px;
 		}
 		.mp-topbar-logo {
 			display: flex; align-items: center; gap: 8px;
@@ -48,10 +45,20 @@
 			font-size: 10px; font-weight: 700; text-transform: uppercase;
 			letter-spacing: 1px; color: #F59E0B;
 		}
+		/* Back button (shown in list view) */
+		.mp-back {
+			display: flex; align-items: center; gap: 6px;
+			color: rgba(255,255,255,0.5); text-decoration: none;
+			font-size: 14px; font-weight: 600;
+			transition: color 0.15s;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.mp-back:hover { color: rgba(255,255,255,0.8); }
 
-		/* ═══ Search ═══ */
+		/* ═══ Search (list view only) ═══ */
 		.mp-search {
 			position: relative;
+			margin-top: 12px;
 		}
 		.mp-search-icon {
 			position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
@@ -62,8 +69,8 @@
 			background: rgba(255,255,255,0.06);
 			border: 1px solid rgba(255,255,255,0.08);
 			border-radius: 12px;
-			padding: 12px 14px 12px 42px;
-			color: #fff; font-size: 15px; font-family: 'Inter', sans-serif;
+			padding: 12px 42px 12px 42px;
+			color: #fff; font-family: 'Inter', sans-serif;
 			outline: none;
 			transition: border-color 0.2s, background 0.2s;
 		}
@@ -81,49 +88,72 @@
 		}
 		.mp-search-clear.visible { display: flex; }
 
-		/* ═══ Filters ═══ */
-		.mp-filters {
-			display: flex; gap: 8px;
-			padding: 12px 16px 0;
+		/* ═══ Category Picker (landing view) ═══ */
+		.mp-categories {
 			max-width: 680px; margin: 0 auto;
-			overflow-x: auto;
-			-webkit-overflow-scrolling: touch;
-			scrollbar-width: none;
+			padding: 24px 16px;
 		}
-		.mp-filters::-webkit-scrollbar { display: none; }
-		.mp-filter {
-			display: flex; align-items: center; gap: 6px;
-			padding: 8px 16px;
-			border-radius: 50px;
-			font-size: 13px; font-weight: 600;
-			white-space: nowrap; cursor: pointer;
-			border: 1px solid rgba(255,255,255,0.08);
-			background: rgba(255,255,255,0.04);
-			color: rgba(255,255,255,0.5);
-			transition: all 0.2s;
+		.mp-cat-heading {
+			font-size: 22px; font-weight: 800; margin-bottom: 6px;
+		}
+		.mp-cat-sub {
+			font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 24px;
+		}
+		.mp-cat-grid {
+			display: flex; flex-direction: column; gap: 12px;
+		}
+		.mp-cat-card {
+			position: relative;
+			border-radius: 18px;
+			padding: 32px 24px;
+			cursor: pointer;
+			overflow: hidden;
+			transition: transform 0.15s, box-shadow 0.15s;
 			-webkit-tap-highlight-color: transparent;
+			border: 1px solid rgba(255,255,255,0.06);
 		}
-		.mp-filter:hover {
-			background: rgba(255,255,255,0.07);
-			color: rgba(255,255,255,0.7);
+		.mp-cat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+		.mp-cat-card:active { transform: scale(0.98); }
+		.mp-cat-card.fireworks {
+			background: linear-gradient(135deg, #1a1005 0%, #291a08 50%, #0f0d0a 100%);
+			border-color: rgba(245,158,11,0.15);
 		}
-		.mp-filter.active {
-			background: rgba(245,158,11,0.12);
-			border-color: rgba(245,158,11,0.25);
-			color: #F59E0B;
+		.mp-cat-card.food {
+			background: linear-gradient(135deg, #05150f 0%, #082918 50%, #0a0f0d 100%);
+			border-color: rgba(52,211,153,0.15);
 		}
-		.mp-filter-count {
-			font-size: 11px; font-weight: 700;
-			background: rgba(255,255,255,0.08);
-			padding: 1px 6px; border-radius: 10px;
-			color: rgba(255,255,255,0.35);
+		.mp-cat-card.crafts {
+			background: linear-gradient(135deg, #0f0a1a 0%, #150d29 50%, #0d0a14 100%);
+			border-color: rgba(167,139,250,0.15);
 		}
-		.mp-filter.active .mp-filter-count {
-			background: rgba(245,158,11,0.2);
-			color: #F59E0B;
+		.mp-cat-emoji {
+			font-size: 40px; margin-bottom: 12px; display: block;
+			filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+		}
+		.mp-cat-title {
+			font-size: 22px; font-weight: 800; margin-bottom: 4px;
+		}
+		.mp-cat-desc {
+			font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 10px;
+			line-height: 1.4;
+		}
+		.mp-cat-count {
+			font-size: 13px; font-weight: 700;
+		}
+		.mp-cat-card.fireworks .mp-cat-count { color: #F59E0B; }
+		.mp-cat-card.food .mp-cat-count { color: #34D399; }
+		.mp-cat-card.crafts .mp-cat-count { color: #A78BFA; }
+		.mp-cat-arrow {
+			position: absolute;
+			right: 20px; top: 50%; transform: translateY(-50%);
+			font-size: 24px; color: rgba(255,255,255,0.12);
 		}
 
-		/* ═══ Results info ═══ */
+		/* ═══ List View ═══ */
+		.mp-list-view { display: none; }
+		.mp-list-view.active { display: block; }
+		.mp-cat-view.hidden { display: none; }
+
 		.mp-results-info {
 			max-width: 680px; margin: 0 auto;
 			padding: 16px 16px 8px;
@@ -141,14 +171,12 @@
 		}
 		.mp-sort:hover { color: rgba(255,255,255,0.6); }
 
-		/* ═══ Stand List ═══ */
+		/* ═══ Stand Cards ═══ */
 		.mp-list {
 			max-width: 680px; margin: 0 auto;
 			padding: 0 16px;
 			display: flex; flex-direction: column; gap: 8px;
 		}
-
-		/* ═══ Stand Card ═══ */
 		.mp-card {
 			display: flex; align-items: center; gap: 14px;
 			padding: 14px;
@@ -158,13 +186,13 @@
 			text-decoration: none; color: #fff;
 			transition: background 0.15s, border-color 0.15s, transform 0.15s;
 			-webkit-tap-highlight-color: transparent;
+			animation: fadeUp 0.3s ease both;
 		}
 		.mp-card:hover {
 			background: rgba(255,255,255,0.06);
 			border-color: rgba(255,255,255,0.12);
 		}
 		.mp-card:active { transform: scale(0.985); }
-
 		.mp-card-photo {
 			width: 56px; height: 56px; border-radius: 14px;
 			object-fit: cover; flex-shrink: 0;
@@ -175,21 +203,6 @@
 		.mp-card-name {
 			font-size: 15px; font-weight: 700;
 			white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-		}
-		.mp-card-tag {
-			flex-shrink: 0;
-			font-size: 10px; font-weight: 700; text-transform: uppercase;
-			letter-spacing: 0.5px;
-			padding: 2px 7px; border-radius: 6px;
-		}
-		.mp-card-tag.fireworks {
-			background: rgba(245,158,11,0.12); color: #F59E0B;
-		}
-		.mp-card-tag.food {
-			background: rgba(52,211,153,0.12); color: #34D399;
-		}
-		.mp-card-tag.crafts {
-			background: rgba(139,92,246,0.12); color: #A78BFA;
 		}
 		.mp-card-meta {
 			font-size: 12px; color: rgba(255,255,255,0.35);
@@ -209,14 +222,10 @@
 		.mp-card-status-dot.closed { background: #EF4444; box-shadow: 0 0 6px rgba(239,68,68,0.4); }
 		.mp-card-status.open { color: #34D399; }
 		.mp-card-status.closed { color: #EF4444; }
-		.mp-card-detail {
-			font-size: 11px; color: rgba(255,255,255,0.25);
-		}
+		.mp-card-detail { font-size: 11px; color: rgba(255,255,255,0.25); }
 		.mp-card-arrow {
-			flex-shrink: 0;
-			color: rgba(255,255,255,0.15);
-			font-size: 18px;
-			margin-left: auto;
+			flex-shrink: 0; color: rgba(255,255,255,0.15);
+			font-size: 18px; margin-left: auto;
 		}
 
 		/* ═══ Empty State ═══ */
@@ -228,28 +237,10 @@
 		.mp-empty-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: rgba(255,255,255,0.5); }
 		.mp-empty-sub { font-size: 13px; }
 
-		/* ═══ Category Divider ═══ */
-		.mp-divider {
-			display: flex; align-items: center; gap: 10px;
-			padding: 20px 0 8px;
-		}
-		.mp-divider-text {
-			font-size: 11px; font-weight: 700; text-transform: uppercase;
-			letter-spacing: 1.5px; color: rgba(255,255,255,0.25);
-			white-space: nowrap;
-		}
-		.mp-divider-line {
-			flex: 1; height: 1px; background: rgba(255,255,255,0.06);
-		}
-
 		/* ═══ Bottom Nav ═══ */
 		.stand-nav {
-			position: fixed;
-			bottom: 0; left: 0; right: 0;
-			z-index: 1050;
-			display: flex;
-			align-items: stretch;
-			justify-content: space-around;
+			position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;
+			display: flex; align-items: stretch; justify-content: space-around;
 			height: 64px;
 			padding-bottom: env(safe-area-inset-bottom, 0px);
 			background: rgba(30, 31, 38, 0.92);
@@ -259,28 +250,20 @@
 			box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.04);
 		}
 		.stand-nav-item {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			gap: 3px;
-			padding: 6px 0;
-			cursor: pointer;
+			flex: 1; display: flex; flex-direction: column;
+			align-items: center; justify-content: center; gap: 3px;
+			padding: 6px 0; cursor: pointer;
 			-webkit-tap-highlight-color: transparent;
 			transition: color 0.2s ease, transform 0.15s ease;
 			color: rgba(255,255,255,0.35);
-			text-decoration: none !important;
-			position: relative;
+			text-decoration: none !important; position: relative;
 		}
 		.stand-nav-item:active { transform: scale(0.92); }
 		.stand-nav-item.active { color: #F59E0B; }
 		.stand-nav-item.active::before {
-			content: '';
-			position: absolute;
+			content: ''; position: absolute;
 			top: 0; left: 25%; right: 25%;
-			height: 2px;
-			background: #F59E0B;
+			height: 2px; background: #F59E0B;
 			border-radius: 0 0 2px 2px;
 		}
 		.stand-nav-item.active .stand-nav-icon {
@@ -289,93 +272,106 @@
 		.stand-nav-icon { font-size: 20px; line-height: 1; }
 		.stand-nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
 
-		/* ═══ Animations ═══ */
 		@keyframes fadeUp {
 			from { opacity: 0; transform: translateY(8px); }
 			to { opacity: 1; transform: translateY(0); }
 		}
-		.mp-card { animation: fadeUp 0.3s ease both; }
 	</style>
 </head>
 <body>
 
-	<!-- Sticky Top Bar -->
+	<!-- Top Bar -->
 	<div class="mp-topbar">
 		<div class="mp-topbar-inner">
-			<div class="mp-topbar-header">
+			<!-- Category view header -->
+			<div class="mp-topbar-header" id="catHeader">
 				<a href="index.html" class="mp-topbar-logo">
 					<img src="assets/media/boom-city/boom-city-logo.png" alt="Boom City" />
 					Marketplace
 				</a>
 				<span class="mp-topbar-badge">2026 Season</span>
 			</div>
-			<div class="mp-search">
+			<!-- List view header (hidden by default) -->
+			<div class="mp-topbar-header" id="listHeader" style="display:none;">
+				<a href="#" class="mp-back" onclick="showCategories(); return false;">
+					<i class="ki-duotone ki-left fs-4"><span class="path1"></span><span class="path2"></span></i>
+					All Categories
+				</a>
+				<span class="mp-topbar-badge" id="listBadge"></span>
+			</div>
+			<!-- Search (list view only) -->
+			<div class="mp-search" id="searchBar" style="display:none;">
 				<i class="ki-duotone ki-magnifier mp-search-icon"><span class="path1"></span><span class="path2"></span></i>
-				<input class="mp-search-input" type="text" id="searchInput" placeholder="Search stands, owners, food..." autocomplete="off" />
+				<input class="mp-search-input" type="text" id="searchInput" placeholder="Search stands, owners..." autocomplete="off" />
 				<button class="mp-search-clear" id="searchClear" onclick="clearSearch()">&times;</button>
 			</div>
 		</div>
 	</div>
 
-	<!-- Category Filters -->
-	<div class="mp-filters" id="filters">
-		<div class="mp-filter active" data-cat="all" onclick="filterBy('all', this)">
-			All <span class="mp-filter-count" id="countAll">0</span>
-		</div>
-		<div class="mp-filter" data-cat="fireworks" onclick="filterBy('fireworks', this)">
-			🎆 Fireworks <span class="mp-filter-count" id="countFireworks">0</span>
-		</div>
-		<div class="mp-filter" data-cat="food" onclick="filterBy('food', this)">
-			🍔 Food <span class="mp-filter-count" id="countFood">0</span>
-		</div>
-		<div class="mp-filter" data-cat="crafts" onclick="filterBy('crafts', this)">
-			🎨 Crafts <span class="mp-filter-count" id="countCrafts">0</span>
+	<!-- CATEGORY PICKER VIEW -->
+	<div class="mp-cat-view" id="catView">
+		<div class="mp-categories">
+			<h1 class="mp-cat-heading">What are you looking for?</h1>
+			<p class="mp-cat-sub">Browse by category to find the perfect stand</p>
+			<div class="mp-cat-grid">
+				<div class="mp-cat-card fireworks" onclick="showCategory('fireworks')">
+					<span class="mp-cat-emoji">🎆</span>
+					<div class="mp-cat-title">Fireworks</div>
+					<div class="mp-cat-desc">Aerial shells, firecrackers, sparklers, Roman candles, finale cakes, and more</div>
+					<div class="mp-cat-count" id="catCountFireworks">0 stands</div>
+					<span class="mp-cat-arrow">›</span>
+				</div>
+				<div class="mp-cat-card food" onclick="showCategory('food')">
+					<span class="mp-cat-emoji">🍔</span>
+					<div class="mp-cat-title">Food & Concession</div>
+					<div class="mp-cat-desc">Frybread, BBQ, tacos, kettle corn, shave ice, burgers, and cold drinks</div>
+					<div class="mp-cat-count" id="catCountFood">0 vendors</div>
+					<span class="mp-cat-arrow">›</span>
+				</div>
+				<div class="mp-cat-card crafts" onclick="showCategory('crafts')">
+					<span class="mp-cat-emoji">🎨</span>
+					<div class="mp-cat-title">Crafts & Art</div>
+					<div class="mp-cat-desc">Jewelry, cedar weavings, dreamcatchers, totem carvings, and handmade goods</div>
+					<div class="mp-cat-count" id="catCountCrafts">0 vendors</div>
+					<span class="mp-cat-arrow">›</span>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<!-- Results Info -->
-	<div class="mp-results-info">
-		<div class="mp-results-count" id="resultsCount">Loading...</div>
-		<button class="mp-sort" onclick="toggleSort()">
-			<i class="ki-duotone ki-arrow-up-down fs-7"><span class="path1"></span><span class="path2"></span></i>
-			<span id="sortLabel">A–Z</span>
-		</button>
-	</div>
-
-	<!-- Stand List -->
-	<div class="mp-list" id="standList"></div>
-
-	<!-- Empty State -->
-	<div class="mp-empty" id="emptyState" style="display:none;">
-		<i class="ki-duotone ki-magnifier"><span class="path1"></span><span class="path2"></span></i>
-		<div class="mp-empty-title">No stands found</div>
-		<div class="mp-empty-sub">Try a different search or filter</div>
+	<!-- LIST VIEW -->
+	<div class="mp-list-view" id="listView">
+		<div class="mp-results-info">
+			<div class="mp-results-count" id="resultsCount"></div>
+			<button class="mp-sort" onclick="toggleSort()">
+				<i class="ki-duotone ki-arrow-up-down fs-7"><span class="path1"></span><span class="path2"></span></i>
+				<span id="sortLabel">A–Z</span>
+			</button>
+		</div>
+		<div class="mp-list" id="standList"></div>
+		<div class="mp-empty" id="emptyState" style="display:none;">
+			<i class="ki-duotone ki-magnifier"><span class="path1"></span><span class="path2"></span></i>
+			<div class="mp-empty-title">No stands found</div>
+			<div class="mp-empty-sub">Try a different search</div>
+		</div>
 	</div>
 
 	<!-- Bottom Nav -->
 	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
 		<a class="stand-nav-item" href="index.html" aria-label="Home">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2">
-				<span class="path1"></span><span class="path2"></span>
-			</i></span>
+			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2"><span class="path1"></span><span class="path2"></span></i></span>
 			<span class="stand-nav-label">Home</span>
 		</a>
 		<a class="stand-nav-item active" href="marketplace.html" aria-label="Marketplace">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2">
-				<span class="path1"></span><span class="path2"></span>
-			</i></span>
+			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2"><span class="path1"></span><span class="path2"></span></i></span>
 			<span class="stand-nav-label">Marketplace</span>
 		</a>
 		<a class="stand-nav-item" href="#" aria-label="Map">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2">
-				<span class="path1"></span><span class="path2"></span>
-			</i></span>
+			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2"><span class="path1"></span><span class="path2"></span></i></span>
 			<span class="stand-nav-label">Map</span>
 		</a>
 		<a class="stand-nav-item" href="#" aria-label="Favorites">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2">
-				<span class="path1"></span><span class="path2"></span>
-			</i></span>
+			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2"><span class="path1"></span><span class="path2"></span></i></span>
 			<span class="stand-nav-label">Favorites</span>
 		</a>
 	</nav>
@@ -383,9 +379,8 @@
 	<script src="assets/plugins/global/plugins.bundle.js"></script>
 	<script src="assets/js/scripts.bundle.js"></script>
 	<script>
-	// ═══ STAND DATA ═══
+	// ═══ DATA ═══
 	var stands = [
-		// Fireworks
 		{ name: "Big Chief Fireworks", num: 42, zone: "B", row: 3, cat: "fireworks", owner: "Mike Thompson", since: 2008, open: "09:00", close: "00:00", payment: "Cash, Card, Venmo", photo: "assets/media/boom-city/big-chief-profile.png", link: "Stand/" },
 		{ name: "Eagle Thunder Fireworks", num: 15, zone: "A", row: 1, cat: "fireworks", owner: "James Red Elk", since: 2012, open: "08:00", close: "00:00", payment: "Cash, Card", photo: "assets/media/avatars/300-1.jpg", link: "#" },
 		{ name: "Crazy Horse Pyro", num: 88, zone: "C", row: 5, cat: "fireworks", owner: "Dan Whitehorse", since: 2015, open: "10:00", close: "23:00", payment: "Cash, Card, Zelle", photo: "assets/media/avatars/300-2.jpg", link: "#" },
@@ -402,7 +397,6 @@
 		{ name: "Salish Sparks", num: 56, zone: "C", row: 1, cat: "fireworks", owner: "Amy Jefferson", since: 2021, open: "10:00", close: "23:00", payment: "Cash, Card, Venmo", photo: "assets/media/avatars/300-24.jpg", link: "#" },
 		{ name: "Night Sky Fireworks", num: 19, zone: "A", row: 5, cat: "fireworks", owner: "Chris Youngblood", since: 2011, open: "08:00", close: "00:00", payment: "Cash, Card", photo: "assets/media/avatars/300-25.jpg", link: "#" },
 		{ name: "Patriot Pyro", num: 80, zone: "C", row: 4, cat: "fireworks", owner: "Brett Williams", since: 2022, open: "09:00", close: "23:00", payment: "Cash, Card", photo: "assets/media/avatars/300-26.jpg", link: "#" },
-		// Food / Concession
 		{ name: "Auntie's Frybread", num: 101, zone: "F", row: 1, cat: "food", owner: "Dorothy Paul", since: 2006, open: "08:00", close: "22:00", payment: "Cash, Card", photo: "assets/media/avatars/300-3.jpg", link: "#" },
 		{ name: "Smokey's BBQ Pit", num: 102, zone: "F", row: 1, cat: "food", owner: "Marcus Johnson", since: 2015, open: "10:00", close: "22:00", payment: "Cash, Card, Venmo", photo: "assets/media/avatars/300-4.jpg", link: "#" },
 		{ name: "Taco Loco", num: 103, zone: "F", row: 2, cat: "food", owner: "Carlos Mendez", since: 2018, open: "09:00", close: "23:00", payment: "Cash, Card", photo: "assets/media/avatars/300-7.jpg", link: "#" },
@@ -411,7 +405,6 @@
 		{ name: "The Lemonade Stand", num: 106, zone: "F", row: 3, cat: "food", owner: "Tyler Brooks", since: 2023, open: "08:00", close: "22:00", payment: "Cash, Card, Venmo", photo: "assets/media/avatars/300-10.jpg", link: "#" },
 		{ name: "Rez Dogs & Burgers", num: 107, zone: "F", row: 4, cat: "food", owner: "Wayne Hillaire", since: 2009, open: "09:00", close: "23:00", payment: "Cash, Card", photo: "assets/media/avatars/300-15.jpg", link: "#" },
 		{ name: "Shave Ice Paradise", num: 108, zone: "F", row: 4, cat: "food", owner: "Leilani Keahi", since: 2020, open: "10:00", close: "22:00", payment: "Cash, Card", photo: "assets/media/avatars/300-16.jpg", link: "#" },
-		// Crafts
 		{ name: "Cedar Weavings", num: 201, zone: "G", row: 1, cat: "crafts", owner: "Susan Point", since: 2012, open: "09:00", close: "20:00", payment: "Cash, Card", photo: "assets/media/avatars/300-18.jpg", link: "#" },
 		{ name: "Spirit Bear Jewelry", num: 202, zone: "G", row: 1, cat: "crafts", owner: "Tina Bear", since: 2014, open: "09:00", close: "20:00", payment: "Cash, Card, Venmo", photo: "assets/media/avatars/300-19.jpg", link: "#" },
 		{ name: "Dreamcatcher Designs", num: 203, zone: "G", row: 2, cat: "crafts", owner: "Rachel Whitefeather", since: 2017, open: "10:00", close: "19:00", payment: "Cash, Card", photo: "assets/media/avatars/300-22.jpg", link: "#" },
@@ -420,23 +413,67 @@
 	];
 
 	// ═══ STATE ═══
-	var currentFilter = 'all';
+	var currentCat = '';
 	var currentSort = 'az';
 	var searchTerm = '';
 
 	// ═══ INIT ═══
-	updateCounts();
-	renderList();
+	updateCatCounts();
+
+	function updateCatCounts() {
+		var fw = stands.filter(function(s) { return s.cat === 'fireworks'; }).length;
+		var fd = stands.filter(function(s) { return s.cat === 'food'; }).length;
+		var cr = stands.filter(function(s) { return s.cat === 'crafts'; }).length;
+		document.getElementById('catCountFireworks').textContent = fw + ' stands';
+		document.getElementById('catCountFood').textContent = fd + ' vendors';
+		document.getElementById('catCountCrafts').textContent = cr + ' vendors';
+	}
+
+	// ═══ SHOW CATEGORY ═══
+	function showCategory(cat) {
+		currentCat = cat;
+		searchTerm = '';
+		currentSort = 'az';
+		document.getElementById('sortLabel').textContent = 'A–Z';
+		var si = document.getElementById('searchInput');
+		si.value = '';
+		document.getElementById('searchClear').classList.remove('visible');
+
+		// Labels
+		var labels = { fireworks: '🎆 Fireworks', food: '🍔 Food', crafts: '🎨 Crafts' };
+		var placeholders = { fireworks: 'Search fireworks stands...', food: 'Search food vendors...', crafts: 'Search craft vendors...' };
+		document.getElementById('listBadge').textContent = labels[cat];
+		si.placeholder = placeholders[cat];
+
+		// Toggle views
+		document.getElementById('catView').classList.add('hidden');
+		document.getElementById('listView').classList.add('active');
+		document.getElementById('catHeader').style.display = 'none';
+		document.getElementById('listHeader').style.display = 'flex';
+		document.getElementById('searchBar').style.display = 'block';
+
+		renderList();
+		window.scrollTo(0, 0);
+	}
+
+	// ═══ BACK TO CATEGORIES ═══
+	function showCategories() {
+		currentCat = '';
+		searchTerm = '';
+		document.getElementById('catView').classList.remove('hidden');
+		document.getElementById('listView').classList.remove('active');
+		document.getElementById('catHeader').style.display = 'flex';
+		document.getElementById('listHeader').style.display = 'none';
+		document.getElementById('searchBar').style.display = 'none';
+		window.scrollTo(0, 0);
+	}
 
 	// ═══ SEARCH ═══
-	var searchInput = document.getElementById('searchInput');
-	var searchClear = document.getElementById('searchClear');
 	var searchTimer;
-
-	searchInput.addEventListener('input', function() {
+	document.getElementById('searchInput').addEventListener('input', function() {
 		clearTimeout(searchTimer);
 		var val = this.value;
-		searchClear.classList.toggle('visible', val.length > 0);
+		document.getElementById('searchClear').classList.toggle('visible', val.length > 0);
 		searchTimer = setTimeout(function() {
 			searchTerm = val.toLowerCase().trim();
 			renderList();
@@ -444,19 +481,11 @@
 	});
 
 	function clearSearch() {
-		searchInput.value = '';
-		searchClear.classList.remove('visible');
+		document.getElementById('searchInput').value = '';
+		document.getElementById('searchClear').classList.remove('visible');
 		searchTerm = '';
 		renderList();
-		searchInput.focus();
-	}
-
-	// ═══ FILTER ═══
-	function filterBy(cat, el) {
-		currentFilter = cat;
-		document.querySelectorAll('.mp-filter').forEach(function(f) { f.classList.remove('active'); });
-		el.classList.add('active');
-		renderList();
+		document.getElementById('searchInput').focus();
 	}
 
 	// ═══ SORT ═══
@@ -467,15 +496,7 @@
 		renderList();
 	}
 
-	// ═══ COUNTS ═══
-	function updateCounts() {
-		document.getElementById('countAll').textContent = stands.length;
-		document.getElementById('countFireworks').textContent = stands.filter(function(s) { return s.cat === 'fireworks'; }).length;
-		document.getElementById('countFood').textContent = stands.filter(function(s) { return s.cat === 'food'; }).length;
-		document.getElementById('countCrafts').textContent = stands.filter(function(s) { return s.cat === 'crafts'; }).length;
-	}
-
-	// ═══ STATUS ═══
+	// ═══ HELPERS ═══
 	function getStatus(s) {
 		var now = new Date();
 		var cur = now.getHours() * 60 + now.getMinutes();
@@ -495,86 +516,6 @@
 		return m > 0 ? hr + ':' + String(m).padStart(2, '0') + suf : hr + suf;
 	}
 
-	// ═══ RENDER ═══
-	function renderList() {
-		var filtered = stands.filter(function(s) {
-			if (currentFilter !== 'all' && s.cat !== currentFilter) return false;
-			if (searchTerm) {
-				var hay = (s.name + ' ' + s.owner + ' ' + s.cat + ' stand ' + s.num + ' zone ' + s.zone).toLowerCase();
-				return hay.indexOf(searchTerm) !== -1;
-			}
-			return true;
-		});
-
-		// Sort
-		filtered.sort(function(a, b) {
-			if (currentSort === 'az') return a.name.localeCompare(b.name);
-			if (currentSort === 'num') return a.num - b.num;
-			if (currentSort === 'zone') {
-				if (a.zone !== b.zone) return a.zone.localeCompare(b.zone);
-				return a.row - b.row;
-			}
-		});
-
-		// Results count
-		var label = currentFilter === 'all' ? 'stands' :
-			currentFilter === 'fireworks' ? 'fireworks stands' :
-			currentFilter === 'food' ? 'food vendors' : 'craft vendors';
-		document.getElementById('resultsCount').innerHTML = '<strong>' + filtered.length + '</strong> ' + label +
-			(searchTerm ? ' matching "' + searchTerm + '"' : '');
-
-		// Empty state
-		var list = document.getElementById('standList');
-		var empty = document.getElementById('emptyState');
-		if (filtered.length === 0) {
-			list.innerHTML = '';
-			empty.style.display = 'block';
-			return;
-		}
-		empty.style.display = 'none';
-
-		// Build cards
-		var html = '';
-		var lastCat = '';
-		filtered.forEach(function(s, i) {
-			// Category divider when showing all and sorted by name
-			if (currentFilter === 'all' && currentSort === 'az') {
-				var catLabel = s.cat === 'fireworks' ? '🎆 Fireworks' : s.cat === 'food' ? '🍔 Food & Concession' : '🎨 Crafts';
-				if (s.cat !== lastCat) {
-					html += '<div class="mp-divider"><span class="mp-divider-text">' + catLabel + '</span><span class="mp-divider-line"></span></div>';
-					lastCat = s.cat;
-				}
-			}
-
-			var isOpen = getStatus(s);
-			var statusClass = isOpen ? 'open' : 'closed';
-			var statusText = isOpen ? 'Open' : 'Closed';
-			var hours = formatTime(s.open) + ' – ' + formatTime(s.close);
-			var delay = Math.min(i * 30, 300);
-
-			html += '<a class="mp-card" href="' + s.link + '" style="animation-delay:' + delay + 'ms">' +
-				'<img class="mp-card-photo" src="' + s.photo + '" alt="' + s.name + '" loading="lazy" />' +
-				'<div class="mp-card-body">' +
-					'<div class="mp-card-top">' +
-						'<span class="mp-card-name">' + highlight(s.name) + '</span>' +
-						'<span class="mp-card-tag ' + s.cat + '">' + (s.cat === 'fireworks' ? 'Fireworks' : s.cat === 'food' ? 'Food' : 'Crafts') + '</span>' +
-					'</div>' +
-					'<div class="mp-card-meta">Stand #' + s.num + ' · Zone ' + s.zone + ', Row ' + s.row + ' · ' + s.owner + '</div>' +
-					'<div class="mp-card-bottom">' +
-						'<span class="mp-card-status ' + statusClass + '">' +
-							'<span class="mp-card-status-dot ' + statusClass + '"></span> ' + statusText +
-						'</span>' +
-						'<span class="mp-card-detail">' + hours + '</span>' +
-					'</div>' +
-				'</div>' +
-				'<span class="mp-card-arrow">›</span>' +
-			'</a>';
-		});
-
-		list.innerHTML = html;
-	}
-
-	// ═══ HIGHLIGHT SEARCH ═══
 	function highlight(text) {
 		if (!searchTerm) return text;
 		var idx = text.toLowerCase().indexOf(searchTerm);
@@ -584,6 +525,72 @@
 			text.substring(idx, idx + searchTerm.length) + '</mark>' +
 			text.substring(idx + searchTerm.length);
 	}
+
+	// ═══ RENDER ═══
+	function renderList() {
+		var filtered = stands.filter(function(s) {
+			if (s.cat !== currentCat) return false;
+			if (searchTerm) {
+				var hay = (s.name + ' ' + s.owner + ' stand ' + s.num + ' zone ' + s.zone).toLowerCase();
+				return hay.indexOf(searchTerm) !== -1;
+			}
+			return true;
+		});
+
+		filtered.sort(function(a, b) {
+			if (currentSort === 'az') return a.name.localeCompare(b.name);
+			if (currentSort === 'num') return a.num - b.num;
+			return a.zone !== b.zone ? a.zone.localeCompare(b.zone) : a.row - b.row;
+		});
+
+		var label = currentCat === 'fireworks' ? 'fireworks stands' :
+			currentCat === 'food' ? 'food vendors' : 'craft vendors';
+		document.getElementById('resultsCount').innerHTML = '<strong>' + filtered.length + '</strong> ' + label +
+			(searchTerm ? ' matching "' + searchTerm + '"' : '');
+
+		var list = document.getElementById('standList');
+		var empty = document.getElementById('emptyState');
+		if (filtered.length === 0) {
+			list.innerHTML = '';
+			empty.style.display = 'block';
+			return;
+		}
+		empty.style.display = 'none';
+
+		var html = '';
+		filtered.forEach(function(s, i) {
+			var isOpen = getStatus(s);
+			var sc = isOpen ? 'open' : 'closed';
+			var st = isOpen ? 'Open' : 'Closed';
+			var hours = formatTime(s.open) + ' – ' + formatTime(s.close);
+			var delay = Math.min(i * 30, 300);
+
+			html += '<a class="mp-card" href="' + s.link + '" style="animation-delay:' + delay + 'ms">' +
+				'<img class="mp-card-photo" src="' + s.photo + '" alt="' + s.name + '" loading="lazy" />' +
+				'<div class="mp-card-body">' +
+					'<div class="mp-card-top">' +
+						'<span class="mp-card-name">' + highlight(s.name) + '</span>' +
+					'</div>' +
+					'<div class="mp-card-meta">Stand #' + s.num + ' · Zone ' + s.zone + ', Row ' + s.row + ' · ' + highlight(s.owner) + '</div>' +
+					'<div class="mp-card-bottom">' +
+						'<span class="mp-card-status ' + sc + '">' +
+							'<span class="mp-card-status-dot ' + sc + '"></span> ' + st +
+						'</span>' +
+						'<span class="mp-card-detail">' + hours + '</span>' +
+					'</div>' +
+				'</div>' +
+				'<span class="mp-card-arrow">›</span>' +
+			'</a>';
+		});
+		list.innerHTML = html;
+	}
+
+	// Handle browser back button
+	window.addEventListener('popstate', function() {
+		if (document.getElementById('listView').classList.contains('active')) {
+			showCategories();
+		}
+	});
 	</script>
 </body>
 </html>
