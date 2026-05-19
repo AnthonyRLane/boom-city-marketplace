@@ -89,7 +89,7 @@ License: For each use you must have a valid license purchased only from above li
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-enabled">
+	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled">
 		<!--begin::Theme mode setup on page load-->
 		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
 		<!--end::Theme mode setup on page load-->
@@ -99,7 +99,7 @@ License: For each use you must have a valid license purchased only from above li
 			<!--begin::Page-->
 			<div class="page d-flex flex-row flex-column-fluid">
 				<!--begin::Aside-->
-				<div id="kt_aside" class="aside px-2" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '285px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_toggle">
+				<div id="kt_aside" class="aside px-2" style="display:none !important;" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '285px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_toggle">
 					<!--begin::Aside menu-->
 					<div class="aside-menu flex-column-fluid">
 						<!--begin::Aside Menu-->
@@ -3362,17 +3362,9 @@ License: For each use you must have a valid license purchased only from above li
 							<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-2 me-lg-5">
 								<!--begin::Wrapper-->
 								<div class="flex-grow-1">
-									<!--begin::Aside toggle-->
-									<button class="btn btn-icon btn-color-gray-800 btn-active-color-primary ms-n4 me-lg-12" id="kt_aside_toggle">
-										<i class="ki-duotone ki-abstract-14 fs-1">
-											<span class="path1"></span>
-											<span class="path2"></span>
-										</i>
-									</button>
-									<!--end::Aside toggle-->
 									<!--begin::Header Logo-->
-									<a href="index.html">
-										<img alt="Logo" src="assets/media/logos/default-small.svg" class="h-30px" />
+									<a href="../index.html" class="d-flex align-items-center text-gray-900 text-hover-primary">
+										<span class="fs-3 fw-bold">🎆 Boom City</span>
 									</a>
 									<!--end::Header Logo-->
 								</div>
@@ -4055,23 +4047,7 @@ License: For each use you must have a valid license purchased only from above li
 							<!--end::Brand-->
 							<!--begin::Toolbar wrapper-->
 							<div class="d-flex align-items-stretch flex-shrink-0">
-								<!--begin::Button-->
-								<a href="#" class="btn btn-light-success me-1" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">Create</a>
-								<!--end::Button-->
-								<!--begin::Activities-->
-								<div class="d-flex align-items-center ms-1 ms-lg-3">
-									<!--begin::drawer toggle-->
-									<div class="position-relative btn btn-color-gray-800 btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_drawer_chat_toggle">
-										<i class="ki-duotone ki-notification-status fs-1">
-											<span class="path1"></span>
-											<span class="path2"></span>
-											<span class="path3"></span>
-											<span class="path4"></span>
-										</i>
-										<span class="bullet bullet-dot bg-danger h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
-									</div>
-									<!--end::drawer toggle-->
-								</div>
+								<!--begin::Activities (hidden for public page)-->
 								<!--end::Activities-->
 								<!--begin::Theme mode-->
 								<div class="d-flex align-items-center ms-1 ms-lg-3">
@@ -4150,8 +4126,8 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end::Menu-->
 								</div>
 								<!--end::Theme mode-->
-								<!--begin::User menu-->
-								<div class="d-flex align-items-center ms-1 ms-lg-3">
+								<!--begin::User menu (hidden)-->
+								<div class="d-none ms-1 ms-lg-3">
 									<!--begin::Menu wrapper-->
 									<div class="btn btn-color-gray-800 btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px position-relative btn btn-color-gray-800 btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 										<i class="ki-duotone ki-user fs-1">
@@ -4326,7 +4302,7 @@ License: For each use you must have a valid license purchased only from above li
 								</div>
 								<!--end::User menu-->
 								<!--begin::Chat-->
-								<div class="d-flex align-items-center ms-1 ms-lg-3">
+								<div class="d-none ms-1 ms-lg-3">
 									<!--begin::Drawer wrapper-->
 									<div class="btn btn-icon btn-danger position-relative w-30px h-30px w-md-40px h-md-40px" id="kt_drawer_chat_toggle">3</div>
 									<!--end::Drawer wrapper-->
@@ -4866,20 +4842,17 @@ License: For each use you must have a valid license purchased only from above li
 						<div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
 							<!--begin::Copyright-->
 							<div class="text-gray-900 order-2 order-md-1">
-								<span class="text-muted fw-semibold me-1">2025&copy;</span>
-								<a href="https://keenthemes.com" target="_blank" class="text-gray-800 text-hover-primary">Keenthemes</a>
+								<span class="text-muted fw-semibold me-1">2026&copy;</span>
+								<a href="https://boomcityinfo.com" target="_blank" class="text-gray-800 text-hover-primary">Boom City Marketplace</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Menu-->
 							<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
 								<li class="menu-item">
-									<a href="https://keenthemes.com" target="_blank" class="menu-link px-2">About</a>
+									<a href="https://boomcityinfo.com" target="_blank" class="menu-link px-2">About</a>
 								</li>
 								<li class="menu-item">
-									<a href="https://devs.keenthemes.com" target="_blank" class="menu-link px-2">Support</a>
-								</li>
-								<li class="menu-item">
-									<a href="https://1.envato.market/EA4JP" target="_blank" class="menu-link px-2">Purchase</a>
+									<a href="https://boomcityinfo.com" target="_blank" class="menu-link px-2">Contact</a>
 								</li>
 							</ul>
 							<!--end::Menu-->
