@@ -272,6 +272,38 @@ License: For each use you must have a valid license purchased only from above li
 			font-size: 11px;
 			font-weight: 600;
 		}
+		/* ── Header Action Buttons ── */
+		.bc-actions {
+			display: flex;
+			gap: 8px;
+			margin-top: 16px;
+			padding-top: 14px;
+			border-top: 1px solid rgba(255,255,255,0.08);
+		}
+		.bc-action-btn {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 6px;
+			padding: 9px 0;
+			border-radius: 10px;
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.06);
+			color: rgba(255,255,255,0.8);
+			font-size: 13px;
+			font-weight: 600;
+			text-decoration: none;
+			transition: all 0.15s;
+		}
+		.bc-action-btn:hover {
+			background: rgba(255,255,255,0.14);
+			color: #fff;
+		}
+		.bc-action-btn:active { transform: scale(0.96); }
+		.bc-action-btn i { font-size: 15px; }
+		.bc-action-btn--save i { color: #F87171; }
+
 		/* ── About Card: Compact Info Grid ── */
 		.bc-info-grid {
 			display: grid;
@@ -3718,14 +3750,26 @@ License: For each use you must have a valid license purchased only from above li
 										<i class="ki-duotone ki-wallet"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 										Cash · Card · Venmo
 									</div>
-									<div class="bc-categories">
-										<span class="bc-cat-tag">Aerial Shells</span>
-										<span class="bc-cat-tag">Finale Cakes</span>
-										<span class="bc-cat-tag">Sparklers</span>
-										<span class="bc-cat-tag">Roman Candles</span>
-										<span class="bc-cat-tag">Assortments</span>
-									</div>
 								</div>
+							</div>
+							<!-- Action buttons -->
+							<div class="bc-actions">
+								<a href="tel:+13605550142" class="bc-action-btn">
+									<i class="ki-duotone ki-phone"><span class="path1"></span><span class="path2"></span></i>
+									<span>Call</span>
+								</a>
+								<a href="mailto:bigchief@boomcity.com" class="bc-action-btn">
+									<i class="ki-duotone ki-sms"><span class="path1"></span><span class="path2"></span></i>
+									<span>Email</span>
+								</a>
+								<a href="#" class="bc-action-btn">
+									<i class="ki-duotone ki-share"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+									<span>Share</span>
+								</a>
+								<a href="#" class="bc-action-btn bc-action-btn--save">
+									<i class="ki-duotone ki-heart"><span class="path1"></span><span class="path2"></span></i>
+									<span>Save</span>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -3820,63 +3864,7 @@ License: For each use you must have a valid license purchased only from above li
 									</div>
 									<!--end::Stand Profile Card-->
 
-									<!--begin::Stand Details (compact)-->
-									<div class="bc-about-card card card-flush mb-5 mb-xl-8">
-										<div class="card-body py-4 px-5">
-											<!-- 2x3 icon grid -->
-											<div class="bc-info-grid">
-												<a href="tel:+13605550142" class="bc-info-cell">
-													<div class="bc-info-icon"><i class="ki-duotone ki-phone"><span class="path1"></span><span class="path2"></span></i></div>
-													<span class="bc-info-label">Call</span>
-												</a>
-												<a href="#" class="bc-info-cell">
-													<div class="bc-info-icon"><i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i></div>
-													<span class="bc-info-label">Directions</span>
-												</a>
-												<a href="mailto:bigchief@boomcity.com" class="bc-info-cell">
-													<div class="bc-info-icon"><i class="ki-duotone ki-sms"><span class="path1"></span><span class="path2"></span></i></div>
-													<span class="bc-info-label">Email</span>
-												</a>
-												<a href="#" class="bc-info-cell">
-													<div class="bc-info-icon"><i class="ki-duotone ki-star"><span class="path1"></span><span class="path2"></span></i></div>
-													<span class="bc-info-label">Reviews</span>
-												</a>
-												<a href="#" class="bc-info-cell">
-													<div class="bc-info-icon"><i class="ki-duotone ki-share"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></div>
-													<span class="bc-info-label">Share</span>
-												</a>
-												<a href="#" class="bc-info-cell">
-													<div class="bc-info-icon bc-info-icon--heart"><i class="ki-duotone ki-heart"><span class="path1"></span><span class="path2"></span></i></div>
-													<span class="bc-info-label">Save</span>
-												</a>
-											</div>
-											<!-- Compact details row -->
-											<div class="bc-compact-details">
-												<div class="bc-compact-row">
-													<span class="bc-compact-icon">👤</span>
-													<span>Mike Thompson · 18 yrs selling</span>
-												</div>
-												<div class="bc-compact-row">
-													<span class="bc-compact-icon">📍</span>
-													<span>Zone B, Row 3 · Near Main Entrance</span>
-												</div>
-												<div class="bc-compact-row">
-													<span class="bc-compact-icon">💳</span>
-													<span>Cash · Card · Venmo</span>
-												</div>
-											</div>
-											<!-- Categories as scrollable chips -->
-											<div class="bc-chip-scroll">
-												<span class="bc-chip">🎆 Aerial Shells</span>
-												<span class="bc-chip">🧨 Firecrackers</span>
-												<span class="bc-chip">✨ Sparklers</span>
-												<span class="bc-chip">🕯️ Roman Candles</span>
-												<span class="bc-chip">🎇 Finale Cakes</span>
-												<span class="bc-chip">📦 Assortments</span>
-											</div>
-										</div>
-									</div>
-									<!--end::Stand Details (compact)-->
+									<!--Stand details merged into header-->
 
 								</div>
 								<!--end::Left Column-->
