@@ -390,54 +390,109 @@ License: For each use you must have a valid license purchased only from above li
 		}
 
 		/* ── Owner Management Styles ── */
-		.bc-owner-banner {
-			background: linear-gradient(90deg, rgba(52,211,153,0.15) 0%, rgba(52,211,153,0.05) 100%);
-			border: 1px solid rgba(52,211,153,0.2);
-			border-radius: 8px;
-			padding: 8px 14px;
-			margin-bottom: 14px;
+		.bc-manage-bar {
 			display: flex;
 			align-items: center;
-			gap: 8px;
-			font-size: 12px;
+			justify-content: space-between;
+			margin-bottom: 10px;
+		}
+		.bc-manage-bar-left {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 11px;
 			font-weight: 600;
 			color: #34D399;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
 		}
-		.bc-editable {
+		.bc-manage-bar-left .bc-dot {
+			width: 6px; height: 6px; border-radius: 50%; background: #34D399;
+		}
+		.bc-edit-profile-btn {
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.15);
+			border-radius: 8px;
+			color: rgba(255,255,255,0.8);
+			padding: 5px 12px;
+			font-size: 12px;
+			font-weight: 600;
 			cursor: pointer;
-			position: relative;
-			border-radius: 6px;
-			transition: background 0.15s;
+			transition: all 0.15s;
+			display: flex; align-items: center; gap: 5px;
+			text-decoration: none;
 		}
-		.bc-editable:hover {
-			background: rgba(255,255,255,0.06);
+		.bc-edit-profile-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+		/* Edit drawer (slides down from header) */
+		.bc-edit-drawer {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.3s ease, padding 0.3s ease;
+			background: rgba(0,0,0,0.25);
+			border-radius: 10px;
+			margin-top: 0;
 		}
-		.bc-editable::after {
-			content: '\270E';
-			position: absolute;
-			right: -4px;
-			top: 50%;
-			transform: translateY(-50%);
-			font-size: 11px;
-			color: rgba(255,255,255,0.3);
-			opacity: 0;
-			transition: opacity 0.15s;
+		.bc-edit-drawer.open {
+			max-height: 600px;
+			padding: 16px;
+			margin-top: 14px;
 		}
-		.bc-editable:hover::after { opacity: 1; }
-		.bc-edit-input {
-			background: rgba(255,255,255,0.1);
-			border: 1px solid rgba(255,255,255,0.2);
-			border-radius: 6px;
+		.bc-field-group { margin-bottom: 12px; }
+		.bc-field-group:last-child { margin-bottom: 0; }
+		.bc-field-label {
+			font-size: 10px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			color: rgba(255,255,255,0.4);
+			font-weight: 600;
+			margin-bottom: 4px;
+		}
+		.bc-field-input {
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.12);
+			border-radius: 8px;
 			color: #fff;
-			padding: 6px 10px;
-			font-size: inherit;
-			font-weight: inherit;
+			padding: 8px 12px;
+			font-size: 14px;
 			width: 100%;
 			outline: none;
+			transition: border-color 0.15s;
 		}
-		.bc-edit-input:focus {
+		.bc-field-input:focus {
 			border-color: #3b82f6;
-			box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+			box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+		}
+		.bc-field-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 10px;
+		}
+		.bc-drawer-actions {
+			display: flex;
+			gap: 8px;
+			margin-top: 14px;
+		}
+		.bc-drawer-save {
+			background: #34D399;
+			color: #000;
+			border: none;
+			border-radius: 8px;
+			padding: 8px 20px;
+			font-size: 13px;
+			font-weight: 700;
+			cursor: pointer;
+			flex: 1;
+		}
+		.bc-drawer-save:hover { background: #2DD4A0; }
+		.bc-drawer-cancel {
+			background: rgba(255,255,255,0.08);
+			color: rgba(255,255,255,0.6);
+			border: 1px solid rgba(255,255,255,0.12);
+			border-radius: 8px;
+			padding: 8px 20px;
+			font-size: 13px;
+			font-weight: 600;
+			cursor: pointer;
 		}
 		.bc-photo-upload {
 			position: relative;
@@ -499,10 +554,6 @@ License: For each use you must have a valid license purchased only from above li
 		/* Card edit styles */
 		.bc-card-editable .card-header { position: relative; }
 		.bc-card-edit-btn {
-			position: absolute;
-			right: 16px;
-			top: 50%;
-			transform: translateY(-50%);
 			background: #F4F6FA;
 			border: none;
 			border-radius: 8px;
@@ -3888,54 +3939,101 @@ License: For each use you must have a valid license purchased only from above li
 								</a>
 								<span class="bc-event-label">Stand Manager</span>
 							</div>
-							<!-- Owner Mode Banner -->
-							<div class="bc-owner-banner">
-								<i class="ki-duotone ki-shield-tick fs-6"><span class="path1"></span><span class="path2"></span></i>
-								You're editing your stand — tap any field to update
+							<!-- Manage bar: subtle status + edit trigger -->
+							<div class="bc-manage-bar">
+								<div class="bc-manage-bar-left">
+									<span class="bc-dot"></span> Published
+								</div>
+								<a href="#" class="bc-edit-profile-btn" onclick="toggleEditDrawer(); return false;">
+									<i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
+									Edit Profile
+								</a>
 							</div>
-							<!-- Stand Name (editable) -->
-							<h1 class="bc-stand-name bc-editable" onclick="editField(this, 'standName')" title="Tap to edit stand name">Big Chief Fireworks</h1>
-							<!-- Stand Info -->
+							<!-- Stand Name -->
+							<h1 class="bc-stand-name" id="standNameDisplay">Big Chief Fireworks</h1>
+							<!-- Stand Info (read-only display, same as customer view) -->
 							<div class="bc-stand-info">
 								<div class="bc-photo-upload" onclick="document.getElementById('photoUpload').click()" title="Tap to change photo">
-									<img src="assets/media/boom-city/big-chief-profile.png" alt="Big Chief Fireworks" class="bc-stand-photo" />
-									<input type="file" id="photoUpload" accept="image/*" style="display:none" />
+									<img src="assets/media/boom-city/big-chief-profile.png" alt="Big Chief Fireworks" class="bc-stand-photo" id="standPhotoPreview" />
+									<input type="file" id="photoUpload" accept="image/*" style="display:none" onchange="previewPhoto(this)" />
 								</div>
 								<div class="bc-stand-details">
-									<div class="bc-detail-row bc-editable" onclick="editField(this, 'hours')" title="Tap to edit hours">
-										<span class="bc-status-dot"></span>
-										<span class="bc-status-open">Open Now</span>
+									<div class="bc-detail-row">
+										<span class="bc-status-dot" id="statusDot"></span>
+										<span class="bc-status-open" id="statusText">Open Now</span>
 										<span style="color:rgba(255,255,255,0.35);">·</span>
-										<span>9AM – Midnight</span>
+										<span id="hoursDisplay">9AM – Midnight</span>
 									</div>
-									<div class="bc-detail-row bc-editable" onclick="editField(this, 'location')" title="Tap to edit location">
+									<div class="bc-detail-row">
 										<i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i>
-										Stand #42 · Zone B, Row 3
+										<span id="locationDisplay">Stand #42 · Zone B, Row 3</span>
 									</div>
-									<div class="bc-detail-row bc-editable" onclick="editField(this, 'owner')" title="Tap to edit owner info">
+									<div class="bc-detail-row">
 										<i class="ki-duotone ki-profile-user"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-										Mike Thompson · Since 2008
+										<span id="ownerDisplay">Mike Thompson · Since 2008</span>
 									</div>
-									<div class="bc-detail-row bc-editable" onclick="editField(this, 'payment')" title="Tap to edit payment methods">
+									<div class="bc-detail-row">
+										<i class="ki-duotone ki-phone"><span class="path1"></span><span class="path2"></span></i>
+										<span id="phoneDisplay">(360) 555-0142</span>
+									</div>
+									<div class="bc-detail-row">
+										<i class="ki-duotone ki-sms"><span class="path1"></span><span class="path2"></span></i>
+										<span id="emailDisplay">bigchief@boomcity.com</span>
+									</div>
+									<div class="bc-detail-row">
 										<i class="ki-duotone ki-wallet"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-										Cash · Card · Venmo
+										<span id="paymentDisplay">Cash · Card · Venmo</span>
 									</div>
 								</div>
 							</div>
-							<!-- Management actions -->
-							<div class="bc-actions">
-								<a href="index.html" class="bc-action-btn">
-									<i class="ki-duotone ki-eye"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-									<span>Preview</span>
-								</a>
-								<a href="#" class="bc-action-btn">
-									<i class="ki-duotone ki-share"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-									<span>Share</span>
-								</a>
-								<a href="#" class="bc-action-btn" style="color:#34D399;">
-									<i class="ki-duotone ki-check-circle"><span class="path1"></span><span class="path2"></span></i>
-									<span>Publish</span>
-								</a>
+							<!-- Edit Drawer (slides open when Edit Profile tapped) -->
+							<div class="bc-edit-drawer" id="editDrawer">
+								<div class="bc-field-group">
+									<div class="bc-field-label">Stand Name</div>
+									<input class="bc-field-input" id="editStandName" value="Big Chief Fireworks" />
+								</div>
+								<div class="bc-field-row">
+									<div class="bc-field-group">
+										<div class="bc-field-label">Stand Number</div>
+										<input class="bc-field-input" id="editStandNum" value="42" />
+									</div>
+									<div class="bc-field-group">
+										<div class="bc-field-label">Zone & Row</div>
+										<input class="bc-field-input" id="editZone" value="Zone B, Row 3" />
+									</div>
+								</div>
+								<div class="bc-field-row">
+									<div class="bc-field-group">
+										<div class="bc-field-label">Opens At</div>
+										<input class="bc-field-input" type="time" id="editOpenTime" value="09:00" />
+									</div>
+									<div class="bc-field-group">
+										<div class="bc-field-label">Closes At</div>
+										<input class="bc-field-input" type="time" id="editCloseTime" value="00:00" />
+									</div>
+								</div>
+								<div class="bc-field-group">
+									<div class="bc-field-label">Owner Name</div>
+									<input class="bc-field-input" id="editOwner" value="Mike Thompson" />
+								</div>
+								<div class="bc-field-row">
+									<div class="bc-field-group">
+										<div class="bc-field-label">Phone</div>
+										<input class="bc-field-input" type="tel" id="editPhone" value="(360) 555-0142" />
+									</div>
+									<div class="bc-field-group">
+										<div class="bc-field-label">Email</div>
+										<input class="bc-field-input" type="email" id="editEmail" value="bigchief@boomcity.com" />
+									</div>
+								</div>
+								<div class="bc-field-group">
+									<div class="bc-field-label">Payment Methods</div>
+									<input class="bc-field-input" id="editPayment" value="Cash · Card · Venmo" />
+								</div>
+								<div class="bc-drawer-actions">
+									<button class="bc-drawer-cancel" onclick="toggleEditDrawer()">Cancel</button>
+									<button class="bc-drawer-save" onclick="saveProfile()">Save Changes</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -4171,35 +4269,100 @@ License: For each use you must have a valid license purchased only from above li
 							<!--end::Stand Layout-->
 
 							<script>
-							function editField(el, field) {
-								if (el.querySelector('.bc-edit-input')) return;
-								var original = el.innerText.trim();
-								var input = document.createElement('input');
-								input.type = 'text';
-								input.className = 'bc-edit-input';
-								input.value = original;
-								var icon = el.querySelector('i, .bc-status-dot');
-								if (field === 'standName') {
-									input.style.fontSize = '24px';
-									input.style.fontWeight = '800';
+							// Toggle edit drawer
+							function toggleEditDrawer() {
+								var d = document.getElementById('editDrawer');
+								d.classList.toggle('open');
+								var btn = document.querySelector('.bc-edit-profile-btn');
+								if (d.classList.contains('open')) {
+									btn.innerHTML = '<i class="ki-duotone ki-cross fs-7"><span class="path1"></span><span class="path2"></span></i> Close';
+								} else {
+									btn.innerHTML = '<i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i> Edit Profile';
 								}
-								el.innerHTML = '';
-								if (icon) el.prepend(icon);
-								el.appendChild(input);
-								input.focus();
-								input.select();
-								function save() {
-									var val = input.value.trim() || original;
-									el.innerHTML = '';
-									if (icon) el.prepend(icon);
-									el.appendChild(document.createTextNode(' ' + val));
-								}
-								input.addEventListener('blur', save);
-								input.addEventListener('keydown', function(e) {
-									if (e.key === 'Enter') { save(); e.preventDefault(); }
-									if (e.key === 'Escape') { el.innerHTML = ''; if (icon) el.prepend(icon); el.appendChild(document.createTextNode(' ' + original)); }
-								});
 							}
+
+							// Save profile edits to display
+							function saveProfile() {
+								document.getElementById('standNameDisplay').textContent = document.getElementById('editStandName').value;
+								// Update hours display + programmatic open/closed
+								var open = document.getElementById('editOpenTime').value;
+								var close = document.getElementById('editCloseTime').value;
+								var openFmt = formatTime(open);
+								var closeFmt = formatTime(close);
+								document.getElementById('hoursDisplay').textContent = openFmt + ' \u2013 ' + closeFmt;
+								updateOpenStatus(open, close);
+								// Location
+								var num = document.getElementById('editStandNum').value;
+								var zone = document.getElementById('editZone').value;
+								document.getElementById('locationDisplay').textContent = 'Stand #' + num + ' \u00b7 ' + zone;
+								// Owner
+								document.getElementById('ownerDisplay').textContent = document.getElementById('editOwner').value + ' \u00b7 Since 2008';
+								// Contact
+								document.getElementById('phoneDisplay').textContent = document.getElementById('editPhone').value;
+								document.getElementById('emailDisplay').textContent = document.getElementById('editEmail').value;
+								// Payment
+								document.getElementById('paymentDisplay').textContent = document.getElementById('editPayment').value;
+								toggleEditDrawer();
+							}
+
+							// Format 24h time to display (9AM, Midnight, etc)
+							function formatTime(t) {
+								var parts = t.split(':');
+								var h = parseInt(parts[0]); var m = parseInt(parts[1] || 0);
+								if (h === 0 && m === 0) return 'Midnight';
+								if (h === 12 && m === 0) return 'Noon';
+								var suffix = h >= 12 ? 'PM' : 'AM';
+								var hour = h % 12 || 12;
+								return m > 0 ? hour + ':' + String(m).padStart(2,'0') + suffix : hour + suffix;
+							}
+
+							// Programmatic open/closed status
+							function updateOpenStatus(openTime, closeTime) {
+								var now = new Date();
+								var currentMin = now.getHours() * 60 + now.getMinutes();
+								var openParts = openTime.split(':');
+								var closeParts = closeTime.split(':');
+								var openMin = parseInt(openParts[0]) * 60 + parseInt(openParts[1] || 0);
+								var closeMin = parseInt(closeParts[0]) * 60 + parseInt(closeParts[1] || 0);
+								var isOpen;
+								if (closeMin <= openMin) { // crosses midnight
+									isOpen = currentMin >= openMin || currentMin < closeMin;
+								} else {
+									isOpen = currentMin >= openMin && currentMin < closeMin;
+								}
+								var dot = document.getElementById('statusDot');
+								var txt = document.getElementById('statusText');
+								if (isOpen) {
+									txt.textContent = 'Open Now';
+									txt.className = 'bc-status-open';
+									dot.style.background = '#34D399';
+									dot.style.boxShadow = '0 0 6px rgba(52,211,153,0.6)';
+								} else {
+									txt.textContent = 'Closed';
+									txt.className = '';
+									txt.style.color = '#EF4444';
+									dot.style.background = '#EF4444';
+									dot.style.boxShadow = '0 0 6px rgba(239,68,68,0.6)';
+								}
+							}
+
+							// Preview uploaded photo
+							function previewPhoto(input) {
+								if (input.files && input.files[0]) {
+									var reader = new FileReader();
+									reader.onload = function(e) {
+										document.getElementById('standPhotoPreview').src = e.target.result;
+									};
+									reader.readAsDataURL(input.files[0]);
+								}
+							}
+
+							// Auto-calculate status on page load
+							updateOpenStatus('09:00', '00:00');
+							setInterval(function() { updateOpenStatus(
+								document.getElementById('editOpenTime').value,
+								document.getElementById('editCloseTime').value
+							); }, 60000);
 							</script>
 						</div>
 						<!--end::Post-->
