@@ -44,6 +44,19 @@ License: For each use you must have a valid license purchased only from above li
 		.stand-col { display: none; }
 		.stand-col.stand-col-active { display: block; }
 		
+		/* Force wrapper to fill page without aside */
+		.page {
+			flex-direction: column !important;
+		}
+		#kt_wrapper {
+			width: 100% !important;
+			flex: 1 1 auto !important;
+		}
+		#kt_footer {
+			width: 100% !important;
+			flex-shrink: 0 !important;
+		}
+
 		/* Stand Layout - Desktop */
 		@media (min-width: 992px) {
 			.stand-tabs { display: none !important; }
