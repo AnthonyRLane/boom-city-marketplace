@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Map — Boom City Fireworks</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+	<meta name="description" content="Interactive map of Boom City Fireworks on the Tulalip Reservation. Find stands, food vendors, parking, and restrooms." />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800,900" />
+	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<style>
+		* { box-sizing: border-box; }
+		body {
+			margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+			background: #070B1A !important; color: #fff;
+			-webkit-font-smoothing: antialiased;
+			padding-bottom: 80px;
+		}
+		body *, .page, .wrapper, .content { background-color: transparent !important; }
+		body { background: #070B1A !important; }
+
+		/* ═══ Top Bar ═══ */
+		.mp-topbar {
+			position: sticky; top: 0; z-index: 100;
+			background: rgba(7,11,26,0.92);
+			-webkit-backdrop-filter: saturate(180%) blur(20px);
+			backdrop-filter: saturate(180%) blur(20px);
+			border-bottom: 1px solid rgba(255,255,255,0.06);
+			padding: 12px 16px;
+			padding-top: calc(12px + env(safe-area-inset-top, 0px));
+		}
+		.mp-topbar-inner { max-width: 680px; margin: 0 auto; }
+		.mp-topbar-header {
+			display: flex; align-items: center; justify-content: space-between;
+		}
+		.mp-topbar-logo {
+			display: flex; align-items: center; gap: 8px;
+			text-decoration: none; color: #fff;
+			font-size: 15px; font-weight: 800;
+		}
+		.mp-topbar-logo img { height: 28px; }
+		.mp-topbar-badge {
+			font-size: 10px; font-weight: 700; text-transform: uppercase;
+			letter-spacing: 1px; color: #F59E0B;
+		}
+
+		/* ═══ Map Container ═══ */
+		.map-page {
+			max-width: 680px; margin: 0 auto;
+			padding: 24px 16px;
+		}
+
+		/* Coming soon card */
+		.map-coming-soon {
+			position: relative;
+			border-radius: 20px;
+			overflow: hidden;
+			border: 1px solid rgba(255,255,255,0.06);
+			margin-bottom: 20px;
+		}
+		.map-placeholder {
+			width: 100%;
+			aspect-ratio: 4/5;
+			background:
+				radial-gradient(circle at 20% 30%, rgba(245,158,11,0.06) 0%, transparent 40%),
+				radial-gradient(circle at 80% 60%, rgba(245,158,11,0.04) 0%, transparent 35%),
+				linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 40px 24px;
+		}
+		/* Fake map grid lines */
+		.map-placeholder::before {
+			content: '';
+			position: absolute; inset: 0;
+			background-image:
+				linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+			background-size: 60px 60px;
+			pointer-events: none;
+		}
+		/* Fake zone labels */
+		.map-zones {
+			position: absolute; inset: 0; pointer-events: none;
+		}
+		.map-zone-label {
+			position: absolute;
+			font-size: 14px; font-weight: 800;
+			color: rgba(255,255,255,0.05);
+			letter-spacing: 4px;
+		}
+		.map-zone-label.z-a { top: 18%; left: 15%; }
+		.map-zone-label.z-b { top: 42%; left: 55%; }
+		.map-zone-label.z-c { top: 65%; left: 25%; }
+		.map-zone-label.z-f { top: 80%; left: 60%; }
+
+		/* Fake dots for stand positions */
+		.map-dots {
+			position: absolute; inset: 0; pointer-events: none;
+		}
+		.map-dot {
+			position: absolute;
+			width: 6px; height: 6px;
+			border-radius: 50%;
+			background: rgba(245,158,11,0.15);
+		}
+
+		.map-icon {
+			font-size: 56px; margin-bottom: 16px;
+			filter: drop-shadow(0 4px 20px rgba(245,158,11,0.2));
+			position: relative; z-index: 1;
+		}
+		.map-title {
+			font-size: 24px; font-weight: 800; margin-bottom: 8px;
+			position: relative; z-index: 1;
+		}
+		.map-subtitle {
+			font-size: 15px; color: rgba(255,255,255,0.45);
+			line-height: 1.5; max-width: 320px;
+			position: relative; z-index: 1;
+			margin-bottom: 24px;
+		}
+		.map-notify-btn {
+			display: inline-flex; align-items: center; gap: 8px;
+			background: rgba(245,158,11,0.12);
+			border: 1px solid rgba(245,158,11,0.25);
+			color: #F59E0B; font-size: 14px; font-weight: 700;
+			padding: 12px 24px; border-radius: 50px;
+			cursor: pointer; transition: all 0.15s;
+			position: relative; z-index: 1;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.map-notify-btn:hover {
+			background: rgba(245,158,11,0.18);
+			transform: translateY(-1px);
+		}
+		.map-notify-btn:active { transform: scale(0.97); }
+		.map-notify-btn.done {
+			background: rgba(52,211,153,0.12);
+			border-color: rgba(52,211,153,0.25);
+			color: #34D399;
+		}
+
+		/* ═══ Zone Legend ═══ */
+		.map-legend {
+			border-radius: 16px;
+			border: 1px solid rgba(255,255,255,0.06);
+			background: rgba(255,255,255,0.03);
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+		.map-legend-title {
+			font-size: 13px; font-weight: 700; text-transform: uppercase;
+			letter-spacing: 1.5px; color: rgba(255,255,255,0.3);
+			margin-bottom: 16px;
+		}
+		.map-legend-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+		.map-legend-item {
+			display: flex; align-items: center; gap: 10px;
+		}
+		.map-legend-dot {
+			width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+		}
+		.map-legend-dot.fw { background: #F59E0B; }
+		.map-legend-dot.fd { background: #34D399; }
+		.map-legend-dot.cr { background: #A78BFA; }
+		.map-legend-dot.pk { background: #60A5FA; }
+		.map-legend-dot.rr { background: #FB7185; }
+		.map-legend-dot.en { background: #FBBF24; }
+		.map-legend-label { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+		/* ═══ Quick Facts ═══ */
+		.map-facts {
+			display: flex; flex-direction: column; gap: 8px;
+		}
+		.map-fact {
+			display: flex; align-items: center; gap: 12px;
+			padding: 14px 16px;
+			border-radius: 12px;
+			border: 1px solid rgba(255,255,255,0.06);
+			background: rgba(255,255,255,0.03);
+		}
+		.map-fact i { font-size: 20px; color: #F59E0B; flex-shrink: 0; }
+		.map-fact-text { font-size: 14px; color: rgba(255,255,255,0.6); }
+		.map-fact-text strong { color: rgba(255,255,255,0.85); font-weight: 700; }
+
+		/* ═══ Bottom Nav ═══ */
+		.stand-nav {
+			position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;
+			display: flex; align-items: stretch; justify-content: space-around;
+			height: 64px;
+			padding-bottom: env(safe-area-inset-bottom, 0px);
+			background: rgba(30, 31, 38, 0.92);
+			-webkit-backdrop-filter: saturate(180%) blur(20px);
+			backdrop-filter: saturate(180%) blur(20px);
+			border-top: 1px solid rgba(255, 255, 255, 0.06);
+			box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.04);
+		}
+		.stand-nav-item {
+			flex: 1; display: flex; flex-direction: column;
+			align-items: center; justify-content: center; gap: 3px;
+			padding: 6px 0; cursor: pointer;
+			-webkit-tap-highlight-color: transparent;
+			transition: color 0.2s ease, transform 0.15s ease;
+			color: rgba(255,255,255,0.35);
+			text-decoration: none !important; position: relative;
+		}
+		.stand-nav-item:active { transform: scale(0.92); }
+		.stand-nav-item.active { color: #F59E0B; }
+		.stand-nav-item.active::before {
+			content: ''; position: absolute;
+			top: 0; left: 25%; right: 25%;
+			height: 2px; background: #F59E0B;
+			border-radius: 0 0 2px 2px;
+		}
+		.stand-nav-item.active .stand-nav-icon {
+			filter: drop-shadow(0 0 6px rgba(245,158,11,0.4));
+		}
+		.stand-nav-icon { font-size: 20px; line-height: 1; }
+		.stand-nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+	</style>
+</head>
+<body>
+
+	<!-- Top Bar -->
+	<div class="mp-topbar">
+		<div class="mp-topbar-inner">
+			<div class="mp-topbar-header">
+				<a href="index.html" class="mp-topbar-logo">
+					<img src="assets/media/boom-city/boom-city-logo.png" alt="Boom City" />
+					Event Map
+				</a>
+				<span class="mp-topbar-badge">2026 Season</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="map-page">
+		<!-- Map Placeholder -->
+		<div class="map-coming-soon">
+			<div class="map-placeholder">
+				<!-- Fake zone labels in background -->
+				<div class="map-zones">
+					<span class="map-zone-label z-a">ZONE A</span>
+					<span class="map-zone-label z-b">ZONE B</span>
+					<span class="map-zone-label z-c">ZONE C</span>
+					<span class="map-zone-label z-f">FOOD</span>
+				</div>
+				<!-- Scattered dots -->
+				<div class="map-dots">
+					<span class="map-dot" style="top:15%;left:20%"></span>
+					<span class="map-dot" style="top:22%;left:28%"></span>
+					<span class="map-dot" style="top:18%;left:36%"></span>
+					<span class="map-dot" style="top:30%;left:12%"></span>
+					<span class="map-dot" style="top:35%;left:45%"></span>
+					<span class="map-dot" style="top:40%;left:60%"></span>
+					<span class="map-dot" style="top:45%;left:52%"></span>
+					<span class="map-dot" style="top:50%;left:70%"></span>
+					<span class="map-dot" style="top:55%;left:38%"></span>
+					<span class="map-dot" style="top:60%;left:22%"></span>
+					<span class="map-dot" style="top:65%;left:30%"></span>
+					<span class="map-dot" style="top:70%;left:55%"></span>
+					<span class="map-dot" style="top:75%;left:65%"></span>
+					<span class="map-dot" style="top:82%;left:48%"></span>
+				</div>
+				<div class="map-icon">🗺️</div>
+				<div class="map-title">Event Map Coming Soon</div>
+				<div class="map-subtitle">We're putting together an interactive map of all stands, food vendors, parking, and restrooms. Check back closer to opening day.</div>
+				<button class="map-notify-btn" id="notifyBtn" onclick="notifyMe()">
+					<i class="ki-duotone ki-notification-on fs-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+					Notify Me When Ready
+				</button>
+			</div>
+		</div>
+
+		<!-- Zone Legend -->
+		<div class="map-legend">
+			<div class="map-legend-title">Map Legend</div>
+			<div class="map-legend-grid">
+				<div class="map-legend-item">
+					<span class="map-legend-dot fw"></span>
+					<span class="map-legend-label">Fireworks Stands</span>
+				</div>
+				<div class="map-legend-item">
+					<span class="map-legend-dot fd"></span>
+					<span class="map-legend-label">Food & Drink</span>
+				</div>
+				<div class="map-legend-item">
+					<span class="map-legend-dot cr"></span>
+					<span class="map-legend-label">Crafts & Art</span>
+				</div>
+				<div class="map-legend-item">
+					<span class="map-legend-dot pk"></span>
+					<span class="map-legend-label">Parking</span>
+				</div>
+				<div class="map-legend-item">
+					<span class="map-legend-dot rr"></span>
+					<span class="map-legend-label">Restrooms</span>
+				</div>
+				<div class="map-legend-item">
+					<span class="map-legend-dot en"></span>
+					<span class="map-legend-label">Entrances</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Quick Facts -->
+		<div class="map-facts">
+			<div class="map-fact">
+				<i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i>
+				<div class="map-fact-text"><strong>Zones A, B, C</strong> — Fireworks stands organized by zone and row</div>
+			</div>
+			<div class="map-fact">
+				<i class="ki-duotone ki-coffee"><span class="path1"></span><span class="path2"></span></i>
+				<div class="map-fact-text"><strong>Zone F</strong> — Food court area with all concession vendors</div>
+			</div>
+			<div class="map-fact">
+				<i class="ki-duotone ki-car-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+				<div class="map-fact-text"><strong>Free parking</strong> — Multiple lots with easy access to all zones</div>
+			</div>
+			<div class="map-fact">
+				<i class="ki-duotone ki-shield-tick"><span class="path1"></span><span class="path2"></span></i>
+				<div class="map-fact-text"><strong>First aid & safety</strong> — Stations located throughout the event</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bottom Nav -->
+	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
+		<a class="stand-nav-item" href="index.html" aria-label="Home">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Home</span>
+		</a>
+		<a class="stand-nav-item" href="marketplace.html" aria-label="Marketplace">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Marketplace</span>
+		</a>
+		<a class="stand-nav-item active" href="map.html" aria-label="Map">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Map</span>
+		</a>
+		<a class="stand-nav-item" href="favorites.html" aria-label="Favorites">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Favorites</span>
+		</a>
+	</nav>
+
+	<script src="assets/plugins/global/plugins.bundle.js"></script>
+	<script src="assets/js/scripts.bundle.js"></script>
+	<script>
+	function notifyMe() {
+		var btn = document.getElementById('notifyBtn');
+		btn.classList.add('done');
+		btn.innerHTML = '<i class="ki-duotone ki-check fs-4"><span class="path1"></span><span class="path2"></span></i> We\'ll Let You Know!';
+		btn.onclick = null;
+		btn.style.cursor = 'default';
+	}
+	</script>
+</body>
+</html>

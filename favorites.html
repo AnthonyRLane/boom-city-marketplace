@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Favorites — Boom City Fireworks</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+	<meta name="description" content="Your saved favorite stands at Boom City Fireworks." />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800,900" />
+	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<style>
+		* { box-sizing: border-box; }
+		body {
+			margin: 0; padding: 0; font-family: 'Inter', sans-serif;
+			background: #070B1A !important; color: #fff;
+			-webkit-font-smoothing: antialiased;
+			padding-bottom: 80px;
+		}
+		body *, .page, .wrapper, .content { background-color: transparent !important; }
+		body { background: #070B1A !important; }
+		input, select, textarea { font-size: 16px !important; }
+
+		/* ═══ Top Bar ═══ */
+		.mp-topbar {
+			position: sticky; top: 0; z-index: 100;
+			background: rgba(7,11,26,0.92);
+			-webkit-backdrop-filter: saturate(180%) blur(20px);
+			backdrop-filter: saturate(180%) blur(20px);
+			border-bottom: 1px solid rgba(255,255,255,0.06);
+			padding: 12px 16px;
+			padding-top: calc(12px + env(safe-area-inset-top, 0px));
+		}
+		.mp-topbar-inner { max-width: 680px; margin: 0 auto; }
+		.mp-topbar-header {
+			display: flex; align-items: center; justify-content: space-between;
+		}
+		.mp-topbar-logo {
+			display: flex; align-items: center; gap: 8px;
+			text-decoration: none; color: #fff;
+			font-size: 15px; font-weight: 800;
+		}
+		.mp-topbar-logo img { height: 28px; }
+		.mp-topbar-badge {
+			font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 500;
+		}
+
+		/* ═══ Page Content ═══ */
+		.fav-page {
+			max-width: 680px; margin: 0 auto;
+			padding: 20px 16px;
+		}
+		.fav-header {
+			margin-bottom: 20px;
+		}
+		.fav-title {
+			font-size: 22px; font-weight: 800; margin: 0 0 4px;
+		}
+		.fav-subtitle {
+			font-size: 14px; color: rgba(255,255,255,0.35);
+		}
+
+		/* ═══ Favorite Cards (larger than marketplace) ═══ */
+		.fav-list {
+			display: flex; flex-direction: column; gap: 12px;
+		}
+		.fav-card {
+			display: flex; gap: 16px;
+			padding: 16px;
+			background: rgba(255,255,255,0.03);
+			border: 1px solid rgba(255,255,255,0.06);
+			border-radius: 16px;
+			text-decoration: none; color: #fff;
+			transition: background 0.15s, border-color 0.15s, transform 0.15s;
+			-webkit-tap-highlight-color: transparent;
+			animation: fadeUp 0.3s ease both;
+			position: relative;
+		}
+		.fav-card:hover {
+			background: rgba(255,255,255,0.06);
+			border-color: rgba(255,255,255,0.12);
+		}
+		.fav-card:active { transform: scale(0.985); }
+
+		/* Photo — larger than marketplace cards */
+		.fav-card-photo {
+			width: 80px; height: 80px; border-radius: 16px;
+			object-fit: cover; flex-shrink: 0;
+			background: rgba(255,255,255,0.05);
+		}
+
+		.fav-card-body { flex: 1; min-width: 0; }
+		.fav-card-top {
+			display: flex; align-items: center; gap: 8px;
+			margin-bottom: 4px;
+		}
+		.fav-card-name {
+			font-size: 16px; font-weight: 700;
+			white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+		}
+		.fav-card-tag {
+			flex-shrink: 0;
+			font-size: 10px; font-weight: 700; text-transform: uppercase;
+			letter-spacing: 0.5px;
+			padding: 2px 8px; border-radius: 6px;
+		}
+		.fav-card-tag.fireworks { background: rgba(245,158,11,0.12); color: #F59E0B; }
+		.fav-card-tag.food { background: rgba(52,211,153,0.12); color: #34D399; }
+		.fav-card-tag.crafts { background: rgba(139,92,246,0.12); color: #A78BFA; }
+
+		.fav-card-meta {
+			font-size: 13px; color: rgba(255,255,255,0.45);
+			margin-bottom: 6px;
+		}
+		.fav-card-details {
+			display: flex; flex-wrap: wrap; gap: 12px;
+			margin-bottom: 8px;
+		}
+		.fav-card-detail {
+			display: flex; align-items: center; gap: 4px;
+			font-size: 12px; color: rgba(255,255,255,0.35);
+		}
+		.fav-card-detail i { font-size: 13px; color: rgba(255,255,255,0.2); }
+		.fav-card-status {
+			display: inline-flex; align-items: center; gap: 5px;
+			font-size: 12px; font-weight: 600;
+		}
+		.fav-card-status-dot {
+			width: 7px; height: 7px; border-radius: 50%;
+		}
+		.fav-card-status-dot.open { background: #34D399; box-shadow: 0 0 6px rgba(52,211,153,0.5); }
+		.fav-card-status-dot.closed { background: #EF4444; box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+		.fav-card-status.open { color: #34D399; }
+		.fav-card-status.closed { color: #EF4444; }
+
+		/* Remove button */
+		.fav-remove {
+			position: absolute; top: 12px; right: 12px;
+			width: 28px; height: 28px;
+			border-radius: 50%;
+			background: rgba(255,255,255,0.06);
+			border: none; color: rgba(255,255,255,0.3);
+			font-size: 14px; cursor: pointer;
+			display: flex; align-items: center; justify-content: center;
+			transition: all 0.15s;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.fav-remove:hover {
+			background: rgba(239,68,68,0.15); color: #EF4444;
+		}
+
+		/* Payment row */
+		.fav-card-payment {
+			font-size: 11px; color: rgba(255,255,255,0.25);
+			margin-top: 2px;
+		}
+
+		/* ═══ Empty State ═══ */
+		.fav-empty {
+			text-align: center;
+			padding: 80px 24px;
+		}
+		.fav-empty-icon {
+			font-size: 56px; margin-bottom: 16px; display: block;
+			opacity: 0.6;
+		}
+		.fav-empty-title {
+			font-size: 20px; font-weight: 800; margin-bottom: 8px;
+			color: rgba(255,255,255,0.7);
+		}
+		.fav-empty-sub {
+			font-size: 14px; color: rgba(255,255,255,0.35);
+			line-height: 1.5; max-width: 300px; margin: 0 auto 24px;
+		}
+		.fav-empty-cta {
+			display: inline-flex; align-items: center; gap: 8px;
+			background: rgba(245,158,11,0.12);
+			border: 1px solid rgba(245,158,11,0.25);
+			color: #F59E0B; font-size: 14px; font-weight: 700;
+			padding: 12px 24px; border-radius: 50px;
+			text-decoration: none;
+			transition: all 0.15s;
+			-webkit-tap-highlight-color: transparent;
+		}
+		.fav-empty-cta:hover {
+			background: rgba(245,158,11,0.18);
+			transform: translateY(-1px);
+			color: #F59E0B;
+		}
+
+		/* ═══ Bottom Nav ═══ */
+		.stand-nav {
+			position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;
+			display: flex; align-items: stretch; justify-content: space-around;
+			height: 64px;
+			padding-bottom: env(safe-area-inset-bottom, 0px);
+			background: rgba(30, 31, 38, 0.92);
+			-webkit-backdrop-filter: saturate(180%) blur(20px);
+			backdrop-filter: saturate(180%) blur(20px);
+			border-top: 1px solid rgba(255, 255, 255, 0.06);
+			box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.04);
+		}
+		.stand-nav-item {
+			flex: 1; display: flex; flex-direction: column;
+			align-items: center; justify-content: center; gap: 3px;
+			padding: 6px 0; cursor: pointer;
+			-webkit-tap-highlight-color: transparent;
+			transition: color 0.2s ease, transform 0.15s ease;
+			color: rgba(255,255,255,0.35);
+			text-decoration: none !important; position: relative;
+		}
+		.stand-nav-item:active { transform: scale(0.92); }
+		.stand-nav-item.active { color: #F59E0B; }
+		.stand-nav-item.active::before {
+			content: ''; position: absolute;
+			top: 0; left: 25%; right: 25%;
+			height: 2px; background: #F59E0B;
+			border-radius: 0 0 2px 2px;
+		}
+		.stand-nav-item.active .stand-nav-icon {
+			filter: drop-shadow(0 0 6px rgba(245,158,11,0.4));
+		}
+		.stand-nav-icon { font-size: 20px; line-height: 1; }
+		.stand-nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+
+		@keyframes fadeUp {
+			from { opacity: 0; transform: translateY(8px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		@keyframes removePop {
+			0% { transform: scale(1); opacity: 1; }
+			100% { transform: scale(0.9); opacity: 0; height: 0; padding: 0; margin: 0; border: 0; overflow: hidden; }
+		}
+		.fav-card.removing {
+			animation: removePop 0.3s ease forwards;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Top Bar -->
+	<div class="mp-topbar">
+		<div class="mp-topbar-inner">
+			<div class="mp-topbar-header">
+				<a href="index.html" class="mp-topbar-logo">
+					<img src="assets/media/boom-city/boom-city-logo.png" alt="Boom City" />
+					Favorites
+				</a>
+				<span class="mp-topbar-badge" id="favCount"></span>
+			</div>
+		</div>
+	</div>
+
+	<!-- Content -->
+	<div class="fav-page">
+		<div class="fav-header">
+			<h1 class="fav-title">Your Saved Stands</h1>
+			<div class="fav-subtitle">Stands you've saved for quick access</div>
+		</div>
+
+		<div class="fav-list" id="favList"></div>
+
+		<div class="fav-empty" id="emptyState" style="display:none;">
+			<span class="fav-empty-icon">❤️</span>
+			<div class="fav-empty-title">No favorites yet</div>
+			<div class="fav-empty-sub">Save stands from the marketplace to build your personal shortlist for opening day.</div>
+			<a href="marketplace.html" class="fav-empty-cta">
+				<i class="ki-duotone ki-magnifier fs-4"><span class="path1"></span><span class="path2"></span></i>
+				Browse Marketplace
+			</a>
+		</div>
+	</div>
+
+	<!-- Bottom Nav -->
+	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
+		<a class="stand-nav-item" href="index.html" aria-label="Home">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Home</span>
+		</a>
+		<a class="stand-nav-item" href="marketplace.html" aria-label="Marketplace">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Marketplace</span>
+		</a>
+		<a class="stand-nav-item" href="map.html" aria-label="Map">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Map</span>
+		</a>
+		<a class="stand-nav-item active" href="favorites.html" aria-label="Favorites">
+			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2"><span class="path1"></span><span class="path2"></span></i></span>
+			<span class="stand-nav-label">Favorites</span>
+		</a>
+	</nav>
+
+	<script src="assets/plugins/global/plugins.bundle.js"></script>
+	<script src="assets/js/scripts.bundle.js"></script>
+	<script>
+	// ═══ ALL STANDS (shared data — same as marketplace) ═══
+	var allStands = [
+		{ id: "big-chief", name: "Big Chief Fireworks", num: 42, zone: "B", row: 3, cat: "fireworks", owner: "Mike Thompson", since: 2008, open: "09:00", close: "00:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0142", photo: "assets/media/boom-city/big-chief-profile.png", link: "Stand/" },
+		{ id: "eagle-thunder", name: "Eagle Thunder Fireworks", num: 15, zone: "A", row: 1, cat: "fireworks", owner: "James Red Elk", since: 2012, open: "08:00", close: "00:00", payment: "Cash, Card", phone: "(360) 555-0215", photo: "assets/media/avatars/300-1.jpg", link: "#" },
+		{ id: "crazy-horse", name: "Crazy Horse Pyro", num: 88, zone: "C", row: 5, cat: "fireworks", owner: "Dan Whitehorse", since: 2015, open: "10:00", close: "23:00", payment: "Cash, Card, Zelle", phone: "(360) 555-0388", photo: "assets/media/avatars/300-2.jpg", link: "#" },
+		{ id: "sky-king", name: "Sky King Fireworks", num: 3, zone: "A", row: 2, cat: "fireworks", owner: "Robert King", since: 2005, open: "07:00", close: "00:00", payment: "Cash, Card", phone: "(360) 555-0103", photo: "assets/media/avatars/300-5.jpg", link: "#" },
+		{ id: "thunderbird", name: "Thunderbird Pyrotechnics", num: 27, zone: "B", row: 1, cat: "fireworks", owner: "Lisa Fryberg", since: 2018, open: "09:00", close: "23:30", payment: "Cash, Card, Venmo", phone: "(360) 555-0127", photo: "assets/media/avatars/300-6.jpg", link: "#" },
+		{ id: "reservation-rockets", name: "Reservation Rockets", num: 51, zone: "B", row: 5, cat: "fireworks", owner: "Tommy Sheldon", since: 2010, open: "08:00", close: "00:00", payment: "Cash Only", phone: "(360) 555-0151", photo: "assets/media/avatars/300-11.jpg", link: "#" },
+		{ id: "cedar-creek", name: "Cedar Creek Fireworks", num: 9, zone: "A", row: 4, cat: "fireworks", owner: "Maria Santos", since: 2019, open: "09:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0109", photo: "assets/media/avatars/300-12.jpg", link: "#" },
+		{ id: "wolf-pack", name: "Wolf Pack Pyro", num: 63, zone: "C", row: 2, cat: "fireworks", owner: "Kevin Wolf", since: 2016, open: "10:00", close: "00:00", payment: "Cash, Card, Apple Pay", phone: "(360) 555-0163", photo: "assets/media/avatars/300-13.jpg", link: "#" },
+		{ id: "boom-town", name: "Boom Town Express", num: 71, zone: "C", row: 3, cat: "fireworks", owner: "Sarah Mitchell", since: 2020, open: "09:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0171", photo: "assets/media/avatars/300-14.jpg", link: "#" },
+		{ id: "firecracker-joes", name: "Firecracker Joe's", num: 35, zone: "B", row: 2, cat: "fireworks", owner: "Joe Martinez", since: 2007, open: "07:00", close: "00:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0135", photo: "assets/media/avatars/300-17.jpg", link: "#" },
+		{ id: "lucky-dragon", name: "Lucky Dragon Fireworks", num: 22, zone: "A", row: 6, cat: "fireworks", owner: "David Chen", since: 2014, open: "08:00", close: "00:00", payment: "Cash, Card", phone: "(360) 555-0122", photo: "assets/media/avatars/300-20.jpg", link: "#" },
+		{ id: "spirit-fire", name: "Spirit Fire", num: 44, zone: "B", row: 4, cat: "fireworks", owner: "Nina Gobin", since: 2017, open: "09:00", close: "23:30", payment: "Cash, Card, Zelle", phone: "(360) 555-0144", photo: "assets/media/avatars/300-21.jpg", link: "#" },
+		{ id: "red-hawk", name: "Red Hawk Fireworks", num: 7, zone: "A", row: 3, cat: "fireworks", owner: "Frank Redhawk", since: 2003, open: "06:00", close: "00:00", payment: "Cash", phone: "(360) 555-0107", photo: "assets/media/avatars/300-23.jpg", link: "#" },
+		{ id: "salish-sparks", name: "Salish Sparks", num: 56, zone: "C", row: 1, cat: "fireworks", owner: "Amy Jefferson", since: 2021, open: "10:00", close: "23:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0156", photo: "assets/media/avatars/300-24.jpg", link: "#" },
+		{ id: "night-sky", name: "Night Sky Fireworks", num: 19, zone: "A", row: 5, cat: "fireworks", owner: "Chris Youngblood", since: 2011, open: "08:00", close: "00:00", payment: "Cash, Card", phone: "(360) 555-0119", photo: "assets/media/avatars/300-25.jpg", link: "#" },
+		{ id: "patriot-pyro", name: "Patriot Pyro", num: 80, zone: "C", row: 4, cat: "fireworks", owner: "Brett Williams", since: 2022, open: "09:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0180", photo: "assets/media/avatars/300-26.jpg", link: "#" },
+		{ id: "aunties-frybread", name: "Auntie's Frybread", num: 101, zone: "F", row: 1, cat: "food", owner: "Dorothy Paul", since: 2006, open: "08:00", close: "22:00", payment: "Cash, Card", phone: "(360) 555-0201", photo: "assets/media/avatars/300-3.jpg", link: "#" },
+		{ id: "smokeys-bbq", name: "Smokey's BBQ Pit", num: 102, zone: "F", row: 1, cat: "food", owner: "Marcus Johnson", since: 2015, open: "10:00", close: "22:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0202", photo: "assets/media/avatars/300-4.jpg", link: "#" },
+		{ id: "taco-loco", name: "Taco Loco", num: 103, zone: "F", row: 2, cat: "food", owner: "Carlos Mendez", since: 2018, open: "09:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0203", photo: "assets/media/avatars/300-7.jpg", link: "#" },
+		{ id: "salmon-nation", name: "Salmon Nation Grill", num: 104, zone: "F", row: 2, cat: "food", owner: "Ben Tulalip", since: 2010, open: "08:00", close: "22:00", payment: "Cash", phone: "(360) 555-0204", photo: "assets/media/avatars/300-8.jpg", link: "#" },
+		{ id: "kettle-corn", name: "Kettle Corn Palace", num: 105, zone: "F", row: 3, cat: "food", owner: "Jenny Park", since: 2019, open: "07:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0205", photo: "assets/media/avatars/300-9.jpg", link: "#" },
+		{ id: "lemonade", name: "The Lemonade Stand", num: 106, zone: "F", row: 3, cat: "food", owner: "Tyler Brooks", since: 2023, open: "08:00", close: "22:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0206", photo: "assets/media/avatars/300-10.jpg", link: "#" },
+		{ id: "rez-dogs", name: "Rez Dogs & Burgers", num: 107, zone: "F", row: 4, cat: "food", owner: "Wayne Hillaire", since: 2009, open: "09:00", close: "23:00", payment: "Cash, Card", phone: "(360) 555-0207", photo: "assets/media/avatars/300-15.jpg", link: "#" },
+		{ id: "shave-ice", name: "Shave Ice Paradise", num: 108, zone: "F", row: 4, cat: "food", owner: "Leilani Keahi", since: 2020, open: "10:00", close: "22:00", payment: "Cash, Card", phone: "(360) 555-0208", photo: "assets/media/avatars/300-16.jpg", link: "#" },
+		{ id: "cedar-weavings", name: "Cedar Weavings", num: 201, zone: "G", row: 1, cat: "crafts", owner: "Susan Point", since: 2012, open: "09:00", close: "20:00", payment: "Cash, Card", phone: "(360) 555-0301", photo: "assets/media/avatars/300-18.jpg", link: "#" },
+		{ id: "spirit-bear", name: "Spirit Bear Jewelry", num: 202, zone: "G", row: 1, cat: "crafts", owner: "Tina Bear", since: 2014, open: "09:00", close: "20:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0302", photo: "assets/media/avatars/300-19.jpg", link: "#" },
+		{ id: "dreamcatcher", name: "Dreamcatcher Designs", num: 203, zone: "G", row: 2, cat: "crafts", owner: "Rachel Whitefeather", since: 2017, open: "10:00", close: "19:00", payment: "Cash, Card", phone: "(360) 555-0303", photo: "assets/media/avatars/300-22.jpg", link: "#" },
+		{ id: "totem-arts", name: "Totem Arts", num: 204, zone: "G", row: 2, cat: "crafts", owner: "Paul Carver", since: 2008, open: "09:00", close: "20:00", payment: "Cash", phone: "(360) 555-0304", photo: "assets/media/avatars/300-27.jpg", link: "#" },
+		{ id: "coastal-creations", name: "Coastal Creations", num: 205, zone: "G", row: 3, cat: "crafts", owner: "Michelle Adams", since: 2021, open: "10:00", close: "19:00", payment: "Cash, Card, Venmo", phone: "(360) 555-0305", photo: "assets/media/avatars/300-28.jpg", link: "#" },
+	];
+
+	// ═══ FAVORITES (localStorage) ═══
+	var STORAGE_KEY = 'boomcity_favorites';
+
+	function getFavorites() {
+		try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+		catch(e) { return []; }
+	}
+
+	function saveFavorites(ids) {
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+	}
+
+	function removeFavorite(id) {
+		var favs = getFavorites().filter(function(f) { return f !== id; });
+		saveFavorites(favs);
+		// Animate out
+		var card = document.querySelector('[data-stand-id="' + id + '"]');
+		if (card) {
+			card.classList.add('removing');
+			setTimeout(function() { renderFavorites(); }, 300);
+		} else {
+			renderFavorites();
+		}
+	}
+
+	// ═══ HELPERS ═══
+	function getStatus(s) {
+		var now = new Date();
+		var cur = now.getHours() * 60 + now.getMinutes();
+		var op = parseInt(s.open.split(':')[0]) * 60 + parseInt(s.open.split(':')[1]);
+		var cl = parseInt(s.close.split(':')[0]) * 60 + parseInt(s.close.split(':')[1]);
+		if (cl <= op) return cur >= op || cur < cl;
+		return cur >= op && cur < cl;
+	}
+
+	function formatTime(t) {
+		var p = t.split(':');
+		var h = parseInt(p[0]); var m = parseInt(p[1] || 0);
+		if (h === 0 && m === 0) return 'Midnight';
+		if (h === 12 && m === 0) return 'Noon';
+		var suf = h >= 12 ? 'PM' : 'AM';
+		var hr = h % 12 || 12;
+		return m > 0 ? hr + ':' + String(m).padStart(2, '0') + suf : hr + suf;
+	}
+
+	function catLabel(cat) {
+		return cat === 'fireworks' ? 'Fireworks' : cat === 'food' ? 'Food' : 'Crafts';
+	}
+
+	// ═══ RENDER ═══
+	function renderFavorites() {
+		var favIds = getFavorites();
+		var favStands = [];
+
+		// Preserve order they were favorited
+		favIds.forEach(function(id) {
+			var s = allStands.find(function(st) { return st.id === id; });
+			if (s) favStands.push(s);
+		});
+
+		// Update counter
+		document.getElementById('favCount').textContent = favStands.length > 0
+			? favStands.length + ' saved' : '';
+
+		var list = document.getElementById('favList');
+		var empty = document.getElementById('emptyState');
+
+		if (favStands.length === 0) {
+			list.innerHTML = '';
+			empty.style.display = 'block';
+			return;
+		}
+		empty.style.display = 'none';
+
+		var html = '';
+		favStands.forEach(function(s, i) {
+			var isOpen = getStatus(s);
+			var sc = isOpen ? 'open' : 'closed';
+			var st = isOpen ? 'Open Now' : 'Closed';
+			var hours = formatTime(s.open) + ' – ' + formatTime(s.close);
+			var delay = Math.min(i * 40, 300);
+
+			html += '<div class="fav-card" data-stand-id="' + s.id + '" style="animation-delay:' + delay + 'ms">' +
+				'<button class="fav-remove" onclick="event.stopPropagation(); removeFavorite(\'' + s.id + '\')" title="Remove from favorites">✕</button>' +
+				'<a href="' + s.link + '" style="display:flex;gap:16px;text-decoration:none;color:#fff;flex:1;min-width:0;">' +
+					'<img class="fav-card-photo" src="' + s.photo + '" alt="' + s.name + '" loading="lazy" />' +
+					'<div class="fav-card-body">' +
+						'<div class="fav-card-top">' +
+							'<span class="fav-card-name">' + s.name + '</span>' +
+							'<span class="fav-card-tag ' + s.cat + '">' + catLabel(s.cat) + '</span>' +
+						'</div>' +
+						'<div class="fav-card-meta">' + s.owner + ' · Stand #' + s.num + ' · Est. ' + s.since + '</div>' +
+						'<div class="fav-card-details">' +
+							'<span class="fav-card-status ' + sc + '">' +
+								'<span class="fav-card-status-dot ' + sc + '"></span> ' + st +
+							'</span>' +
+							'<span class="fav-card-detail">' +
+								'<i class="ki-duotone ki-time"><span class="path1"></span><span class="path2"></span></i> ' + hours +
+							'</span>' +
+							'<span class="fav-card-detail">' +
+								'<i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i> Zone ' + s.zone + ', Row ' + s.row +
+							'</span>' +
+						'</div>' +
+						'<div class="fav-card-payment">💳 ' + s.payment + '</div>' +
+					'</div>' +
+				'</a>' +
+			'</div>';
+		});
+
+		list.innerHTML = html;
+	}
+
+	// ═══ SEED DEMO FAVORITES ═══
+	// If first visit, seed a few favorites to show the UI
+	if (!localStorage.getItem(STORAGE_KEY)) {
+		saveFavorites(['big-chief', 'aunties-frybread', 'spirit-bear', 'sky-king', 'smokeys-bbq']);
+	}
+
+	renderFavorites();
+	</script>
+</body>
+</html>
