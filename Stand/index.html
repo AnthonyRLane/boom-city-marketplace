@@ -272,6 +272,75 @@ License: For each use you must have a valid license purchased only from above li
 			font-size: 11px;
 			font-weight: 600;
 		}
+		/* ── About Card: Compact Info Grid ── */
+		.bc-info-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 2px;
+			margin-bottom: 12px;
+		}
+		.bc-info-cell {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+			padding: 10px 4px;
+			border-radius: 10px;
+			text-decoration: none;
+			transition: background 0.15s;
+		}
+		.bc-info-cell:hover { background: rgba(0,0,0,0.03); }
+		.bc-info-icon {
+			width: 40px; height: 40px;
+			border-radius: 50%;
+			background: #EEF1F6;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.bc-info-icon i { font-size: 18px; color: #3F4254; }
+		.bc-info-icon--heart { background: #FFF1F1; }
+		.bc-info-icon--heart i { color: #E63027; }
+		.bc-info-label {
+			font-size: 11px;
+			font-weight: 600;
+			color: #3F4254;
+			text-align: center;
+		}
+		.bc-compact-details {
+			padding: 0 4px;
+			margin-bottom: 10px;
+		}
+		.bc-compact-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 5px 0;
+			font-size: 13px;
+			color: #5E6278;
+			font-weight: 500;
+		}
+		.bc-compact-icon { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
+		.bc-chip-scroll {
+			display: flex;
+			gap: 6px;
+			overflow-x: auto;
+			padding: 4px 0 2px;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+		}
+		.bc-chip-scroll::-webkit-scrollbar { display: none; }
+		.bc-chip {
+			white-space: nowrap;
+			padding: 5px 10px;
+			border-radius: 20px;
+			background: #F4F6FA;
+			font-size: 12px;
+			font-weight: 600;
+			color: #5E6278;
+			flex-shrink: 0;
+		}
+
 		/* Sparkle accents */
 		.bc-sparkle {
 			position: absolute;
@@ -3751,53 +3820,63 @@ License: For each use you must have a valid license purchased only from above li
 									</div>
 									<!--end::Stand Profile Card-->
 
-									<!--begin::Stand Details-->
-									<div class="card card-flush mb-5 mb-xl-8">
-										<div class="card-header pt-5">
-											<h3 class="card-title align-items-start flex-column">
-												<span class="card-label fw-bold text-gray-900">About This Stand</span>
-											</h3>
-										</div>
-										<div class="card-body pt-5">
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Owner</span>
-												<span class="text-gray-800 fw-semibold fs-6">Mike Thompson</span>
+									<!--begin::Stand Details (compact)-->
+									<div class="bc-about-card card card-flush mb-5 mb-xl-8">
+										<div class="card-body py-4 px-5">
+											<!-- 2x3 icon grid -->
+											<div class="bc-info-grid">
+												<a href="tel:+13605550142" class="bc-info-cell">
+													<div class="bc-info-icon"><i class="ki-duotone ki-phone"><span class="path1"></span><span class="path2"></span></i></div>
+													<span class="bc-info-label">Call</span>
+												</a>
+												<a href="#" class="bc-info-cell">
+													<div class="bc-info-icon"><i class="ki-duotone ki-geolocation"><span class="path1"></span><span class="path2"></span></i></div>
+													<span class="bc-info-label">Directions</span>
+												</a>
+												<a href="mailto:bigchief@boomcity.com" class="bc-info-cell">
+													<div class="bc-info-icon"><i class="ki-duotone ki-sms"><span class="path1"></span><span class="path2"></span></i></div>
+													<span class="bc-info-label">Email</span>
+												</a>
+												<a href="#" class="bc-info-cell">
+													<div class="bc-info-icon"><i class="ki-duotone ki-star"><span class="path1"></span><span class="path2"></span></i></div>
+													<span class="bc-info-label">Reviews</span>
+												</a>
+												<a href="#" class="bc-info-cell">
+													<div class="bc-info-icon"><i class="ki-duotone ki-share"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></div>
+													<span class="bc-info-label">Share</span>
+												</a>
+												<a href="#" class="bc-info-cell">
+													<div class="bc-info-icon bc-info-icon--heart"><i class="ki-duotone ki-heart"><span class="path1"></span><span class="path2"></span></i></div>
+													<span class="bc-info-label">Save</span>
+												</a>
 											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Selling Since</span>
-												<span class="text-gray-800 fw-semibold fs-6">2008 · 18 Years</span>
+											<!-- Compact details row -->
+											<div class="bc-compact-details">
+												<div class="bc-compact-row">
+													<span class="bc-compact-icon">👤</span>
+													<span>Mike Thompson · 18 yrs selling</span>
+												</div>
+												<div class="bc-compact-row">
+													<span class="bc-compact-icon">📍</span>
+													<span>Zone B, Row 3 · Near Main Entrance</span>
+												</div>
+												<div class="bc-compact-row">
+													<span class="bc-compact-icon">💳</span>
+													<span>Cash · Card · Venmo</span>
+												</div>
 											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Location</span>
-												<span class="text-gray-800 fw-semibold fs-6">Zone B, Row 3</span>
-												<span class="text-gray-500 fw-semibold fs-7 d-block">Near Main Entrance</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Payment</span>
-												<span class="text-gray-800 fw-semibold fs-6">Cash · Card · Venmo</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div class="mb-4">
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-1">Contact</span>
-												<span class="text-gray-800 fw-semibold fs-6">(360) 555-0142</span>
-												<span class="text-gray-500 fw-semibold fs-7 d-block">bigchief@boomcity.com</span>
-											</div>
-											<div class="separator my-4"></div>
-											<div>
-												<span class="text-gray-500 fw-semibold fs-7 d-block mb-2">Categories</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Aerial Shells</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Firecrackers</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Sparklers</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Roman Candles</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Finale Cakes</span>
-												<span class="badge badge-light fs-8 me-1 mb-1">Assortments</span>
+											<!-- Categories as scrollable chips -->
+											<div class="bc-chip-scroll">
+												<span class="bc-chip">🎆 Aerial Shells</span>
+												<span class="bc-chip">🧨 Firecrackers</span>
+												<span class="bc-chip">✨ Sparklers</span>
+												<span class="bc-chip">🕯️ Roman Candles</span>
+												<span class="bc-chip">🎇 Finale Cakes</span>
+												<span class="bc-chip">📦 Assortments</span>
 											</div>
 										</div>
 									</div>
-									<!--end::Stand Details-->
+									<!--end::Stand Details (compact)-->
 
 								</div>
 								<!--end::Left Column-->
