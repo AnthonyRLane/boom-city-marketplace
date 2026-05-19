@@ -122,7 +122,10 @@ License: For each use you must have a valid license purchased only from above li
 
 		/* Bottom padding so content doesn't hide behind nav */
 		@media (max-width: 991.98px) {
-			#kt_content { padding-bottom: 80px !important; }
+			#kt_content {
+				padding-bottom: 80px !important;
+				padding-top: 16px !important;
+			}
 		}
 		
 		/* Kill Metronic page/wrapper backgrounds */
@@ -173,7 +176,11 @@ License: For each use you must have a valid license purchased only from above li
 			margin: 0 auto;
 		}
 		@media (min-width: 992px) {
-			.bc-header-inner { padding: 24px 40px 32px; }
+			.bc-header-inner {
+				padding: 28px 40px 32px;
+				max-width: 720px;
+				margin: 0 auto;
+			}
 		}
 		.bc-logo-row {
 			display: flex;
@@ -411,14 +418,36 @@ License: For each use you must have a valid license purchased only from above li
 			flex-shrink: 0 !important;
 		}
 
-		/* Stand Layout - Desktop */
+		/* Desktop: content padding + bottom nav space */
 		@media (min-width: 992px) {
-			.stand-nav { display: none !important; }
-			.stand-layout { display: flex; flex-direction: row; }
-			.stand-col { display: block !important; }
-			.stand-col-info { width: 325px; flex-shrink: 0; }
-			.stand-col-feed { flex: 1; margin: 0 3rem; }
-			.stand-col-team { width: 325px; flex-shrink: 0; }
+			#kt_content {
+				padding-top: 20px !important;
+				padding-bottom: 80px !important;
+			}
+			#kt_content_container {
+				max-width: 720px !important;
+				margin: 0 auto;
+			}
+		}
+
+		/* Stand Layout - Desktop: single column centered, matching mobile */
+		@media (min-width: 992px) {
+			.stand-layout {
+				display: flex;
+				flex-direction: column;
+				max-width: 680px;
+				margin: 0 auto;
+			}
+			.stand-col { display: block !important; width: 100%; }
+			.stand-col-info { width: 100%; }
+			.stand-col-feed { width: 100%; margin: 0; }
+			.stand-col-team { width: 100%; }
+			/* Bottom nav visible on desktop too */
+			.stand-nav {
+				max-width: 680px;
+				margin: 0 auto;
+				border-radius: 16px 16px 0 0;
+			}
 		}
 		
 		/* Mobile: nuke all width constraints */
@@ -3794,7 +3823,7 @@ License: For each use you must have a valid license purchased only from above li
 							<div class="stand-layout">
 								<!--begin::Left Column (Stand Info)-->
 								<div class="stand-col stand-col-info" id="stand_col_info">
-									<div class="card mb-5 mb-xl-8 d-none d-lg-block">
+									<div class="card mb-5 mb-xl-8" style="display:none !important;">
 										<div class="card-body pt-15 px-0">
 											<!--begin::Stand Photo-->
 											<div class="d-flex flex-column text-center mb-9 px-9">
