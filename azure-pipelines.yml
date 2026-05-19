@@ -1,0 +1,28 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  - group: Global
+
+steps:
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/site.zip'
+      replaceExistingArchive: true
+
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: '$(azureSubscription)'
+      appType: 'webApp'
+      WebAppName: 'boomcity'
+      deployToSlotOrASE: true
+      ResourceGroupName: 'LaneAndCompany-ResourceGroup'
+      SlotName: 'staging'
+      Package: '$(Build.ArtifactStagingDirectory)/site.zip'
