@@ -23,6 +23,11 @@ License: For each use you must have a valid license purchased only from above li
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta name="apple-mobile-web-app-title" content="Boom City" />
+		<script>
+			if (window.navigator.standalone === true) {
+				document.documentElement.classList.add('ios-standalone');
+			}
+		</script>
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="Big Chief Fireworks — Stand #42 | Boom City Marketplace" />
@@ -53,11 +58,14 @@ License: For each use you must have a valid license purchased only from above li
 	<style>
 		:root {
 			--bc-nav-row-height: 64px;
-			--bc-nav-safe-area: 16px;
+			--bc-nav-safe-area: env(safe-area-inset-bottom, 0px);
 			--bc-nav-clearance: calc(104px + var(--bc-nav-safe-area));
 		}
-		@supports (-webkit-touch-callout: none) {
-			:root { --bc-nav-safe-area: 34px; }
+		@media (display-mode: standalone), (display-mode: fullscreen) {
+			:root { --bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px); }
+		}
+		html.ios-standalone {
+			--bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px);
 		}
 		/* Stand Layout - Mobile: single scroll, all visible */
 		.stand-layout { display: block; width: 100%; margin-top: 16px; }

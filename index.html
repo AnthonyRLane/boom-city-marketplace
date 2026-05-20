@@ -8,6 +8,11 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 	<meta name="apple-mobile-web-app-title" content="Boom City" />
+	<script>
+		if (window.navigator.standalone === true) {
+			document.documentElement.classList.add('ios-standalone');
+		}
+	</script>
 	<meta name="description" content="Boom City Fireworks in Tulalip, WA. Open June 20 through July 5, 2026. Over 100 fireworks stands, concessions, and craft vendors." />
 	<meta property="og:title" content="Boom City Fireworks — Tulalip, WA" />
 	<meta property="og:description" content="Open June 20 – July 5, 2026. 6AM to Midnight daily. 100+ fireworks stands at the Tulalip Reservation." />
@@ -22,12 +27,15 @@
 	<style>
 		:root {
 			--bc-nav-row-height: 64px;
-			--bc-nav-safe-area: 16px;
+			--bc-nav-safe-area: env(safe-area-inset-bottom, 0px);
 			--bc-nav-clearance: calc(104px + var(--bc-nav-safe-area));
 			--bc-content-clearance: calc(128px + var(--bc-nav-safe-area));
 		}
-		@supports (-webkit-touch-callout: none) {
-			:root { --bc-nav-safe-area: 34px; }
+		@media (display-mode: standalone), (display-mode: fullscreen) {
+			:root { --bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px); }
+		}
+		html.ios-standalone {
+			--bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px);
 		}
 		* { box-sizing: border-box; }
 		/* Override Metronic dark heading color for dark theme */

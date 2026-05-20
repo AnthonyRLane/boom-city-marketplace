@@ -8,6 +8,11 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 	<meta name="apple-mobile-web-app-title" content="Boom City" />
+	<script>
+		if (window.navigator.standalone === true) {
+			document.documentElement.classList.add('ios-standalone');
+		}
+	</script>
 	<meta name="description" content="Browse all fireworks stands, food vendors, and craft booths at Boom City on the Tulalip Reservation." />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800,900" />
 	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -15,12 +20,15 @@
 	<style>
 		:root {
 			--bc-nav-row-height: 64px;
-			--bc-nav-safe-area: 16px;
+			--bc-nav-safe-area: env(safe-area-inset-bottom, 0px);
 			--bc-nav-clearance: calc(104px + var(--bc-nav-safe-area));
 			--bc-content-clearance: calc(128px + var(--bc-nav-safe-area));
 		}
-		@supports (-webkit-touch-callout: none) {
-			:root { --bc-nav-safe-area: 34px; }
+		@media (display-mode: standalone), (display-mode: fullscreen) {
+			:root { --bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px); }
+		}
+		html.ios-standalone {
+			--bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 34px);
 		}
 		* { box-sizing: border-box; }
 		h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { color: #fff !important; }
