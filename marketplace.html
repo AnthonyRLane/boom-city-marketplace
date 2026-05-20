@@ -34,19 +34,19 @@
 		h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { color: #fff !important; }
 		body {
 			margin: 0; padding: 0; font-family: 'Inter', sans-serif;
-			background: #070B1A !important; color: #fff;
+			background: #08090D !important; color: #fff;
 			-webkit-font-smoothing: antialiased;
 			padding-bottom: var(--bc-nav-clearance);
 		}
 		body *, .page, .wrapper, .content { background-color: transparent !important; }
-		body { background: #070B1A !important; }
+		body { background: #08090D !important; }
 		/* Prevent iOS zoom on input focus */
 		input, select, textarea { font-size: 16px !important; }
 
 		/* ═══ Top Bar ═══ */
 		.mp-topbar {
 			position: sticky; top: 0; z-index: 100;
-			background: rgba(7,11,26,0.92);
+			background: rgba(8,9,13,0.92);
 			-webkit-backdrop-filter: saturate(180%) blur(20px);
 			backdrop-filter: saturate(180%) blur(20px);
 			border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -129,43 +129,63 @@
 			position: relative;
 			border-radius: 18px;
 			padding: 32px 24px;
+			min-height: 210px;
 			cursor: pointer;
 			overflow: hidden;
 			transition: transform 0.15s, box-shadow 0.15s;
 			-webkit-tap-highlight-color: transparent;
-			border: 1px solid rgba(255,255,255,0.06);
+			border: 1px solid rgba(255,255,255,0.08);
+			background-position: center;
+			background-size: cover;
+			isolation: isolate;
+		}
+		.mp-cat-card::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -2;
+			background: inherit;
+			filter: saturate(0.72) contrast(0.9) brightness(0.72);
+			transform: scale(1.02);
+		}
+		.mp-cat-card::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			background:
+				linear-gradient(90deg, rgba(8,9,13,0.88) 0%, rgba(8,9,13,0.72) 54%, rgba(8,9,13,0.48) 100%),
+				linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.24) 100%);
 		}
 		.mp-cat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
 		.mp-cat-card:active { transform: scale(0.98); }
 		.mp-cat-card.fireworks {
-			background: linear-gradient(135deg, #1a1005 0%, #291a08 50%, #0f0d0a 100%);
+			background-image: url('assets/media/boom-city/categories/fireworks-bg.webp');
 			border-color: rgba(245,158,11,0.15);
 		}
 		.mp-cat-card.food {
-			background: linear-gradient(135deg, #05150f 0%, #082918 50%, #0a0f0d 100%);
-			border-color: rgba(52,211,153,0.15);
+			background-image: url('assets/media/boom-city/categories/food-bg.webp');
+			border-color: rgba(180,185,186,0.16);
 		}
 		.mp-cat-card.crafts {
-			background: linear-gradient(135deg, #0f0a1a 0%, #150d29 50%, #0d0a14 100%);
-			border-color: rgba(167,139,250,0.15);
-		}
-		.mp-cat-emoji {
-			font-size: 40px; margin-bottom: 12px; display: block;
-			filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+			background-image: url('assets/media/boom-city/categories/crafts-bg.webp');
+			border-color: rgba(190,184,170,0.16);
 		}
 		.mp-cat-title {
-			font-size: 22px; font-weight: 800; margin-bottom: 4px;
+			font-size: 24px; font-weight: 800; margin-bottom: 6px;
+			text-shadow: 0 2px 12px rgba(0,0,0,0.65);
 		}
 		.mp-cat-desc {
-			font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 10px;
+			max-width: 82%;
+			font-size: 13px; color: rgba(255,255,255,0.64); margin-bottom: 14px;
 			line-height: 1.4;
 		}
 		.mp-cat-count {
 			font-size: 13px; font-weight: 700;
 		}
 		.mp-cat-card.fireworks .mp-cat-count { color: #F59E0B; }
-		.mp-cat-card.food .mp-cat-count { color: #34D399; }
-		.mp-cat-card.crafts .mp-cat-count { color: #A78BFA; }
+		.mp-cat-card.food .mp-cat-count { color: #D4D8DA; }
+		.mp-cat-card.crafts .mp-cat-count { color: #C9C0B2; }
 		.mp-cat-arrow {
 			position: absolute;
 			right: 20px; top: 50%; transform: translateY(-50%);
@@ -341,21 +361,18 @@
 			<p class="mp-cat-sub">Browse by category to find the perfect stand</p>
 			<div class="mp-cat-grid">
 				<div class="mp-cat-card fireworks" onclick="showCategory('fireworks')">
-					<span class="mp-cat-emoji">🎆</span>
 					<div class="mp-cat-title">Fireworks</div>
 					<div class="mp-cat-desc">Aerial shells, firecrackers, sparklers, Roman candles, finale cakes, and more</div>
 					<div class="mp-cat-count" id="catCountFireworks">0 stands</div>
 					<span class="mp-cat-arrow">›</span>
 				</div>
 				<div class="mp-cat-card food" onclick="showCategory('food')">
-					<span class="mp-cat-emoji">🍔</span>
 					<div class="mp-cat-title">Food & Concession</div>
 					<div class="mp-cat-desc">Frybread, BBQ, tacos, kettle corn, shave ice, burgers, and cold drinks</div>
 					<div class="mp-cat-count" id="catCountFood">0 vendors</div>
 					<span class="mp-cat-arrow">›</span>
 				</div>
 				<div class="mp-cat-card crafts" onclick="showCategory('crafts')">
-					<span class="mp-cat-emoji">🎨</span>
 					<div class="mp-cat-title">Crafts & Art</div>
 					<div class="mp-cat-desc">Jewelry, cedar weavings, dreamcatchers, totem carvings, and handmade goods</div>
 					<div class="mp-cat-count" id="catCountCrafts">0 vendors</div>
