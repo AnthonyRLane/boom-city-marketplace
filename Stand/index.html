@@ -18,7 +18,7 @@ License: For each use you must have a valid license purchased only from above li
 		<meta charset="utf-8" />
 		<meta name="description" content="Big Chief Fireworks — Stand #42 at Boom City Fireworks Marketplace. Open 9AM–Midnight. Aerial Shells, Finale Cakes, Sparklers & more." />
 		<meta name="keywords" content="boom city, fireworks, marketplace, big chief fireworks, stand 42, aerial shells, sparklers, firecrackers" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="Big Chief Fireworks — Stand #42 | Boom City Marketplace" />
@@ -61,7 +61,7 @@ License: For each use you must have a valid license purchased only from above li
 			display: flex;
 			align-items: stretch;
 			justify-content: space-around;
-			min-min-height: 64px;
+			min-height: calc(64px + env(safe-area-inset-bottom, 0px));
 			padding-bottom: env(safe-area-inset-bottom, 0px);
 			background: rgba(255, 255, 255, 0.92);
 			-webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -123,7 +123,7 @@ License: For each use you must have a valid license purchased only from above li
 		/* Bottom padding so content doesn't hide behind nav */
 		@media (max-width: 991.98px) {
 			#kt_content {
-				padding-bottom: 80px !important;
+				padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
 				padding-top: 16px !important;
 			}
 		}
@@ -422,7 +422,7 @@ License: For each use you must have a valid license purchased only from above li
 		@media (min-width: 992px) {
 			#kt_content {
 				padding-top: 20px !important;
-				padding-bottom: 80px !important;
+				padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
 			}
 			#kt_content_container {
 				max-width: 720px !important;
@@ -462,7 +462,7 @@ License: For each use you must have a valid license purchased only from above li
 			#kt_content {
 				max-width: 100% !important;
 				width: 100% !important;
-				padding: 0 !important;
+				padding: 0 0 calc(104px + env(safe-area-inset-bottom, 0px)) !important;
 				flex: 1 1 100% !important;
 			}
 			#kt_wrapper {
