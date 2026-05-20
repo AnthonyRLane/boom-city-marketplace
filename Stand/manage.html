@@ -19,6 +19,10 @@ License: For each use you must have a valid license purchased only from above li
 		<meta name="description" content="Big Chief Fireworks — Stand #42 at Boom City Fireworks Marketplace. Open 9AM–Midnight. Aerial Shells, Finale Cakes, Sparklers & more." />
 		<meta name="keywords" content="boom city, fireworks, marketplace, big chief fireworks, stand 42, aerial shells, sparklers, firecrackers" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-title" content="Boom City" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="Big Chief Fireworks — Stand #42 | Boom City Marketplace" />
@@ -47,6 +51,10 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 	<style>
+		:root {
+			--bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 16px);
+			--bc-nav-clearance: calc(104px + var(--bc-nav-safe-area));
+		}
 		/* Stand Layout - Mobile: single scroll, all visible */
 		.stand-layout { display: block; width: 100%; margin-top: 16px; }
 		.stand-col { display: block; }
@@ -61,8 +69,8 @@ License: For each use you must have a valid license purchased only from above li
 			display: flex;
 			align-items: stretch;
 			justify-content: space-around;
-			min-height: calc(64px + env(safe-area-inset-bottom, 0px));
-			padding-bottom: env(safe-area-inset-bottom, 0px);
+			min-height: calc(64px + var(--bc-nav-safe-area));
+			padding-bottom: var(--bc-nav-safe-area);
 			background: rgba(255, 255, 255, 0.92);
 			-webkit-backdrop-filter: saturate(180%) blur(20px);
 			backdrop-filter: saturate(180%) blur(20px);
@@ -123,7 +131,7 @@ License: For each use you must have a valid license purchased only from above li
 		/* Bottom padding so content doesn't hide behind nav */
 		@media (max-width: 991.98px) {
 			#kt_content {
-				padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+				padding-bottom: var(--bc-nav-clearance) !important;
 				padding-top: 16px !important;
 			}
 		}
@@ -599,7 +607,7 @@ License: For each use you must have a valid license purchased only from above li
 		@media (min-width: 992px) {
 			#kt_content {
 				padding-top: 20px !important;
-				padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+				padding-bottom: var(--bc-nav-clearance) !important;
 			}
 			#kt_content_container {
 				max-width: 720px !important;
@@ -639,7 +647,7 @@ License: For each use you must have a valid license purchased only from above li
 			#kt_content {
 				max-width: 100% !important;
 				width: 100% !important;
-				padding: 0 0 calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+				padding: 0 0 var(--bc-nav-clearance) !important;
 				flex: 1 1 100% !important;
 			}
 			#kt_wrapper {

@@ -4,6 +4,10 @@
 	<meta charset="utf-8" />
 	<title>Boom City Fireworks — Tulalip, WA</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-title" content="Boom City" />
 	<meta name="description" content="Boom City Fireworks in Tulalip, WA. Open June 20 through July 5, 2026. Over 100 fireworks stands, concessions, and craft vendors." />
 	<meta property="og:title" content="Boom City Fireworks — Tulalip, WA" />
 	<meta property="og:description" content="Open June 20 – July 5, 2026. 6AM to Midnight daily. 100+ fireworks stands at the Tulalip Reservation." />
@@ -16,12 +20,17 @@
 	<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 	<style>
+		:root {
+			--bc-nav-safe-area: max(env(safe-area-inset-bottom, 0px), 16px);
+			--bc-nav-clearance: calc(104px + var(--bc-nav-safe-area));
+			--bc-content-clearance: calc(128px + var(--bc-nav-safe-area));
+		}
 		* { box-sizing: border-box; }
 		/* Override Metronic dark heading color for dark theme */
 		h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { color: #fff !important; }
 		body {
 			margin: 0;
-			padding: 0 0 calc(104px + env(safe-area-inset-bottom, 0px));
+			padding: 0 0 var(--bc-nav-clearance);
 			font-family: 'Inter', sans-serif;
 			background: #070B1A !important; color: #fff;
 			-webkit-font-smoothing: antialiased;
@@ -184,7 +193,7 @@
 		/* Footer */
 		.bc-footer {
 			text-align: center;
-			padding: 30px 20px calc(120px + env(safe-area-inset-bottom, 0px));
+			padding: 30px 20px var(--bc-content-clearance);
 			font-size: 12px;
 			color: rgba(255,255,255,0.25);
 		}
@@ -199,8 +208,8 @@
 			display: flex;
 			align-items: stretch;
 			justify-content: space-around;
-			min-height: calc(64px + env(safe-area-inset-bottom, 0px));
-			padding-bottom: env(safe-area-inset-bottom, 0px);
+			min-height: calc(64px + var(--bc-nav-safe-area));
+			padding-bottom: var(--bc-nav-safe-area);
 			background: rgba(30, 31, 38, 0.92);
 			-webkit-backdrop-filter: saturate(180%) blur(20px);
 			backdrop-filter: saturate(180%) blur(20px);
