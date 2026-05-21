@@ -209,44 +209,6 @@
 			color: #F59E0B;
 		}
 
-		/* ═══ Bottom Nav ═══ */
-		.stand-nav {
-			position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;
-			display: flex; align-items: flex-start; justify-content: space-around;
-			height: calc(var(--bc-nav-row-height) + var(--bc-nav-safe-area));
-			min-height: calc(var(--bc-nav-row-height) + var(--bc-nav-safe-area));
-			padding: 0 0 var(--bc-nav-safe-area);
-			overflow: visible;
-			background: rgba(30, 31, 38, 0.92);
-			-webkit-backdrop-filter: saturate(180%) blur(20px);
-			backdrop-filter: saturate(180%) blur(20px);
-			border-top: 1px solid rgba(255, 255, 255, 0.06);
-			box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.04);
-		}
-		.stand-nav-item {
-			flex: 1 0 0; height: var(--bc-nav-row-height); min-height: var(--bc-nav-row-height);
-			display: flex; flex-direction: column;
-			align-items: center; justify-content: center; gap: 3px;
-			padding: 6px 0; cursor: pointer;
-			-webkit-tap-highlight-color: transparent;
-			transition: color 0.2s ease, transform 0.15s ease;
-			color: rgba(255,255,255,0.35);
-			text-decoration: none !important; position: relative;
-		}
-		.stand-nav-item:active { transform: scale(0.92); }
-		.stand-nav-item.active { color: #F59E0B; }
-		.stand-nav-item.active::before {
-			content: ''; position: absolute;
-			top: 0; left: 25%; right: 25%;
-			height: 2px; background: #F59E0B;
-			border-radius: 0 0 2px 2px;
-		}
-		.stand-nav-item.active .stand-nav-icon {
-			filter: drop-shadow(0 0 6px rgba(245,158,11,0.4));
-		}
-		.stand-nav-icon { font-size: 20px; line-height: 1; }
-		.stand-nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
-
 		@keyframes fadeUp {
 			from { opacity: 0; transform: translateY(8px); }
 			to { opacity: 1; transform: translateY(0); }
@@ -259,6 +221,7 @@
 			animation: removePop 0.3s ease forwards;
 		}
 	</style>
+	<link href="assets/css/boom-city-nav.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -295,28 +258,10 @@
 		</div>
 	</div>
 
-	<!-- Bottom Nav -->
-	<nav class="stand-nav" role="navigation" aria-label="Marketplace navigation">
-		<a class="stand-nav-item" href="index.html" aria-label="Home">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-home-2 fs-2"><span class="path1"></span><span class="path2"></span></i></span>
-			<span class="stand-nav-label">Home</span>
-		</a>
-		<a class="stand-nav-item" href="marketplace.html" aria-label="Marketplace">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-magnifier fs-2"><span class="path1"></span><span class="path2"></span></i></span>
-			<span class="stand-nav-label">Marketplace</span>
-		</a>
-		<a class="stand-nav-item" href="map.html" aria-label="Map">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-geolocation fs-2"><span class="path1"></span><span class="path2"></span></i></span>
-			<span class="stand-nav-label">Map</span>
-		</a>
-		<a class="stand-nav-item active" href="favorites.html" aria-label="Favorites">
-			<span class="stand-nav-icon"><i class="ki-duotone ki-heart fs-2"><span class="path1"></span><span class="path2"></span></i></span>
-			<span class="stand-nav-label">Favorites</span>
-		</a>
-	</nav>
 
 	<script src="assets/plugins/global/plugins.bundle.js"></script>
 	<script src="assets/js/scripts.bundle.js"></script>
+	<script src="assets/js/boom-city-nav.js"></script>
 	<script>
 	// ═══ ALL STANDS (shared data — same as marketplace) ═══
 	var allStands = [
