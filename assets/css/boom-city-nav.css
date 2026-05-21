@@ -21,7 +21,7 @@ html.ios-standalone {
 	min-height: calc(var(--bc-nav-row-height) + var(--bc-nav-safe-area));
 	padding: 0 0 var(--bc-nav-safe-area);
 	overflow: visible;
-	background: rgba(30, 31, 38, 0.92);
+	background: rgba(30, 31, 38, 0.92) !important;
 	-webkit-backdrop-filter: saturate(180%) blur(20px);
 	backdrop-filter: saturate(180%) blur(20px);
 	border-top: 1px solid rgba(255, 255, 255, 0.06);
